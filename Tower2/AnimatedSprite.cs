@@ -16,17 +16,17 @@ namespace Tower2
 
         protected List<Texture2D> _textures;
         protected int _currentTexture = 0;
-        protected Texture2D _texture;
+        public Texture2D _texture;
 
         private int _fps = 10;
         private double _delay => 1.0f / _fps;
         private double _timer = 0f;
 
-        public AnimatedSprite(Texture2D[] textures, Vector2 pos) : base(pos)
+        public AnimatedSprite(string name,  Texture2D[] textures, Vector2 pos, Vector2 size) : base(name, pos, size)
         {
             _textures = textures.ToList<Texture2D>();
             _texture = _textures[0];
-            _size = _texture.Bounds.Size.ToVector2() / 2048f;
+            size = _texture.Bounds.Size.ToVector2();
             //_size.X = _texture.Bounds.Size.ToVector2().X / _texture.Width; //scale
             //_size.Y = _texture.Bounds.Size.ToVector2().Y / _texture.Height; //scale
         }
@@ -49,8 +49,8 @@ namespace Tower2
         {
             Vector2 anchor = new Vector2(_texture.Width, _texture.Height) / 2f; //Anchor in the middle
 
-            sp.Draw(_texture, _position, null, Color.White,
-                _rotation, anchor, _size,
+            sp.Draw(_texture, position, null, Color.White,
+                _rotation, anchor, size,
                 _direction == Direction.Right ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
                 0);
         }
