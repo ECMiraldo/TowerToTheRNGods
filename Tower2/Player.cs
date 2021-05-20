@@ -28,6 +28,8 @@ namespace Tower2
         private Body _body;
         private bool debug = true;
         private Vector2 _pos;
+        private int jumpingCount = 0;
+        private double _timer = 0f;
 
         public Player(Game1 game1, Vector2 pos)
         {
@@ -49,7 +51,6 @@ namespace Tower2
             _body.Restitution = 0.1f;
             _body.FixedRotation = true;
 
-            
             KeyboardManager.Register(
                Keys.Space,
                KeysState.GoingDown,
@@ -80,6 +81,7 @@ namespace Tower2
             {
                 _idleAnim.Update(gameTime);
             }
+            JumpRestrictions(gameTime);
         }
         public static void Draw(SpriteBatch sp, GameTime gameTime)
         {
@@ -92,6 +94,26 @@ namespace Tower2
             {
                 _idleAnim.Draw(sp, gameTime);
             }
+        }
+
+        private bool JumpRestrictions(GameTime gameTime)
+        {
+            if (jumpingCount < 2)
+            {
+                _timer += gameTime.ElapsedGameTime.TotalSeconds;
+                if (_timer > 5)
+                {
+                    _timer = 0.0;
+                    jumpingCount = 0;
+                }
+            }
+
+            if (KeyboardManager.IsKeyDown(Keys.Space)){
+                jumpingCount++;
+                return true;
+            }
+
+            return false;
         }
     }
 }
