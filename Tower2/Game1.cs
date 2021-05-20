@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Genbox.VelcroPhysics.Dynamics;
+using IPCA.Monogame;
 
 namespace Tower2
 {
@@ -16,7 +17,7 @@ namespace Tower2
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             new KeyboardManager(this);
-            _world = new World(new Vector2(0, -9.82f));
+            _world = new World(new Vector2(0, 9.82f));
             Services.AddService(_world);
         }
 

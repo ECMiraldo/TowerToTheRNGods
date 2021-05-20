@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 using Microsoft.Xna.Framework;
 
-namespace Tower2
+namespace IPCA.Monogame
 {
     /// <summary>
     /// Describes a 2D-rectangle. 

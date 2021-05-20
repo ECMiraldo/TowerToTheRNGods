@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using IPCA.Monogame;
 
 namespace Tower2
 {
@@ -27,8 +28,6 @@ namespace Tower2
             _textures = textures.ToList<Texture2D>();
             _texture = _textures[0];
             size = _texture.Bounds.Size.ToVector2();
-            //_size.X = _texture.Bounds.Size.ToVector2().X / _texture.Width; //scale
-            //_size.Y = _texture.Bounds.Size.ToVector2().Y / _texture.Height; //scale
         }
 
         public virtual void Update(GameTime gameTime)

@@ -4,7 +4,7 @@ using System.Linq;  // Collections' functions (Except, ...
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace Tower2
+namespace IPCA.Monogame
 { /*
    *  MonoGame - Default: 
    *    Keyboard.IsDown(tecla) -> bool 

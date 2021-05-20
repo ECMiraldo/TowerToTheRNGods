@@ -7,19 +7,16 @@ using IPCA.Monogame;
 
 namespace Tower2
 {
-    public class GameObject
+    class Platform
     {
-        private string name;
-        protected float _rotation;
-        public Vector2 position;
-        public Vector2 size; 
+        private Sprite _sprite;
+        private Vector2 pos;
+        private Vector2 size;
 
-        public GameObject(string name, Vector2 position, Vector2 size)
+        public Platform(Vector2 pos, Vector2 size)
         {
-            this.name = name;
-            this.position = position;
+            this.pos = pos;
             this.size = size;
         }
-
     }
 }
