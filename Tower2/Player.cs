@@ -5,115 +5,100 @@ using Genbox.VelcroPhysics.Factories;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using IPCA.Monogame;
+using IPCA.MonoGame;
 
 
 namespace Tower2
 {
-    class Player
+    class Player : AnimatedSprite
     {
-        public static Player _instance;
-        
         enum Status
         {
             Idle, Walk,
         }
         private Status _status = Status.Idle;
 
+        public static Player _instance;
+
         private Game1 _game;
-        private Vector2 _size = Vector2.One * 2048; //Como as sprites tem dimensoes diferentes, é preciso experimentar com os sizes para ver quais deles funcionam
         private bool _isGrounded = false;
-        private AnimatedSprite _idleAnim;
+
+        private List<Texture2D> _idleFrames;
         private List<Texture2D> _walkFrames;
-        private Body _body;
-        private bool debug = true;
-        private Vector2 _pos;
-        private int jumpingCount = 0;
-        private double _timer = 0f;
 
-        public Player(Game1 game1, Vector2 pos)
+        public Player(Game1 game1) : base("idle", new Vector2(5f, 10f), game1.playersizemult, Enumerable.Range(0, 9).Select(n => game1.Content.Load<Texture2D>($"playersprites/Stand/{n}")).ToArray())
         {
-            _game = game1;
             _instance = this;
-            _idleAnim = new AnimatedSprite("idle anim",Enumerable.Range(0, 9).Select(n => _game.Content.Load<Texture2D>(@$"playersprites\stand\{n}")).ToArray(), pos, _size);
-            _idleAnim.size = _idleAnim._texture.Bounds.Size.ToVector2() / _size;
- 
+            _idleFrames = _textures; // loaded by the base construtor
 
-            //Creates rectangle body
-            _body = BodyFactory.CreateRectangle(game1._world, _idleAnim.size.X, _idleAnim.size.Y, 1f, pos);
-            _body.UserData = this;
-            if (_body.BodyType == BodyType.Kinematic) _body.BodyType = BodyType.Kinematic;
-            else
+            _walkFrames = Enumerable.Range(0, 9).Select(n => game1.Content.Load<Texture2D>($"playersprites/Walk/{n}")).ToList();
+
+            _game = game1;
+
+
+            AddRectangleBody(
+                _game.Services.GetService<World>(), _size.X*1.8f, _size.Y*2.4f //Some magic numbers cause collider was offset
+            ) ; // kinematic is false by default
+
+            Fixture sensor = FixtureFactory.AttachRectangle(
+                _size.X / 3f, _size.Y * 0.05f,
+                4, new Vector2(0, -_size.Y / 2f),
+                Body);
+            sensor.IsSensor = true;
+
+            sensor.OnCollision = (a, b, contact) =>
             {
-                _body.BodyType = BodyType.Dynamic;
-            }
-            _body.Friction = 0.5f;
-            _body.Restitution = 0.1f;
-            _body.FixedRotation = true;
+                if (b.GameObject().Name != "bullet")
+                    _isGrounded = true;
+            };
+            sensor.OnSeparation = (a, b, contact) => _isGrounded = false;
 
             KeyboardManager.Register(
-               Keys.Space,
-               KeysState.GoingDown,
-               () =>
-               {
-                   _body.ApplyForce(new Vector2(0, -200f));
-               });
+                Keys.Space,
+                KeysState.GoingDown,
+                () =>
+                {
+                    if (_isGrounded) Body.ApplyForce(new Vector2(0, 200f));
+                });
             KeyboardManager.Register(
                 Keys.A,
                 KeysState.Down,
-                () => { _body.ApplyForce(new Vector2(-5, 0)); });
+                () => { Body.ApplyForce(new Vector2(-5, 0)); });
             KeyboardManager.Register(
                 Keys.D,
                 KeysState.Down,
-                () => { _body.ApplyForce(new Vector2(5, 0)); });
+                () => { Body.ApplyForce(new Vector2(5f, 0)); });
+
+
+
         }
 
-        public static void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
-            _instance._Update(gameTime);
-        }
-
-        private void _Update(GameTime gameTime)
-        {
-            _pos = _body.Position;
-            _idleAnim.position = _pos;
-            if (_status == Status.Idle)
+            if (_status == Status.Idle && Body.LinearVelocity.LengthSquared() > 0.001f)
             {
-                _idleAnim.Update(gameTime);
+                _status = Status.Walk;
+                _textures = _walkFrames;
+                _currentTexture = 0;
             }
-            JumpRestrictions(gameTime);
-        }
-        public static void Draw(SpriteBatch sp, GameTime gameTime)
-        {
-            _instance._Draw(sp, gameTime);
-        }
 
-        public void _Draw(SpriteBatch sp, GameTime gameTime)
-        {
-            if (_status == Status.Idle)
+            if (_status == Status.Walk && Body.LinearVelocity.LengthSquared() <= 0.001f)
             {
-                _idleAnim.Draw(sp, gameTime);
+                _status = Status.Idle;
+                _textures = _idleFrames;
+                _currentTexture = 0;
             }
+
+            if (Body.LinearVelocity.X < 0f) _direction = Direction.Left;
+            else if (Body.LinearVelocity.X > 0f) _direction = Direction.Right;
+
+            base.Update(gameTime);
+            //Camera.LookAt(_position);
         }
 
-        private bool JumpRestrictions(GameTime gameTime)
+        public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            if (jumpingCount < 2)
-            {
-                _timer += gameTime.ElapsedGameTime.TotalSeconds;
-                if (_timer > 5)
-                {
-                    _timer = 0.0;
-                    jumpingCount = 0;
-                }
-            }
-
-            if (KeyboardManager.IsKeyDown(Keys.Space)){
-                jumpingCount++;
-                return true;
-            }
-
-            return false;
+            base.Draw(spriteBatch, gameTime);
         }
     }
 }

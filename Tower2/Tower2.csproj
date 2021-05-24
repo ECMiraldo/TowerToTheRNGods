@@ -29,6 +29,9 @@
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.0.1641" />
   </ItemGroup>
   <ItemGroup>
+    <None Update="Content\brick sprite.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Content\playersprites\Cast1H\0.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
