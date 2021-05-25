@@ -19,7 +19,7 @@ namespace IPCA.MonoGame
 
         //As we are not using Hyperlap, we need sizemult in order to correctly scale sprites in relation to one another;
         //128f = Player/platform
-
+        //16f = Brick;
         private float sizemult; 
 
 
