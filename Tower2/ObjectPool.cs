@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Runtime;
-
+using IPCA.MonoGame;
 
 namespace Tower2
 {
@@ -10,20 +10,38 @@ namespace Tower2
     {
         public static ObjectPool _instance;
         private Game1 game;
-        private List<Object> _pool;
-        private Random random;
+        private List<Sprite> _pool;
+        private Random rng;
+        private int _random;
 
         public ObjectPool(Game1 game)
         {
             this.game = game;
             _instance = this;
-            _pool = new List<Object>();
-            random = new Random();
+            _pool = new List<Sprite>();
+            rng = new Random();
+
+            //Systema para gerar uma seed random no começo do jogo
+            //for (float i = 2; i < 20; i = i + 2)
+            //{
+            //    _random = rng.Next(0, 100);
+            //    switch (_random) {
+            //        case (_random < 10):
+            //            break;
+
+
+
+
+
+
+            //    }
+            //} 
         }
 
+        
         public void Update()
         {
-            random.Next(0, 100);
+            rng.Next(0, 100);
         }
     }
 }

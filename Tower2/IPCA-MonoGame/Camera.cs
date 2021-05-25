@@ -15,6 +15,7 @@ namespace IPCA.MonoGame
 
         public static Vector2 WorldSize => _camera._worldSize;
         public static Vector2 WindowSize => _camera._windowSize;
+        public static Vector2 Target => _camera._target;
         
         public Camera(GraphicsDevice graphics, Vector2 worldSize):
             this(graphics, worldSize.X, worldSize.Y)
@@ -115,6 +116,17 @@ namespace IPCA.MonoGame
         private Vector2 _length2Pixels(Vector2 len)
         {
             return len * _ratio;
+        }
+
+
+        public static void Update(GameTime gametime)
+        {
+            _camera._Update(gametime);
+        }
+
+        private void _Update(GameTime gametime)
+        {
+            _target = _target + new Vector2(0, 0.005f);
         }
     }
 }
