@@ -11,42 +11,24 @@ namespace Tower2
     class Tower
     {
         public static Tower _instance;
-        private List<Sprite> _bricks;
-        private Sprite _texture;
+        private List<Brick> _bricks;
         private Game1 game;
-        private float sizemult = 4f;
         public Tower(Game1 game1)
         {
             _instance = this;
             game = game1;
-            _bricks = new List<Sprite>();
-            _texture = new Sprite("brick", game1.Content.Load<Texture2D>("brick sprite"), new Vector2(0, 0), sizemult);
-            _texture._size = new Vector2(1, 2);
-            //foreach(Sprite s in _bricks)
-            //{
-            //    s.AddRectangleBody(game.Services.GetService<World>(), s.Size.X * 1.8f, s.Size.Y * 2.4f); //Some magic numbers cause collider was offset
-            //    s.Body.BodyType = BodyType.Static;
+            _bricks = new List<Brick>();
+            for (float i = 0; i < 20f; i++) //brick size is (0.5f, 1) so i raises by one
+            {
+                _bricks.Add(new Brick(game1, new Vector2(0.25f, i+0.5f)));
+                _bricks.Add(new Brick(game1, new Vector2(9.75f, i+0.5f)));
+            }
 
-            //}
         }
+
         public void Update(GameTime gametime)
         {
-            for (float i = 0; i < Player._instance.Position.Y + 10; i = i + _texture._size.Y)
-            {
-                _bricks.Add(new Sprite("brick", game.Content.Load<Texture2D>("brick sprite"), new Vector2(0, i)));
-                _bricks.Add(new Sprite("brick", game.Content.Load<Texture2D>("brick sprite"), new Vector2(10f, i)));
-            }
-
-            foreach (Sprite s in _bricks)
-            {
-                s.AddRectangleBody(game.Services.GetService<World>(), s._size.X /(sizemult*2), s._size.Y /(sizemult*2)); //Some magic numbers cause collider was offset
-                s.Body.BodyType = BodyType.Static;
-
-            }
-            for(int i = 0; i<_bricks.Count; i++)
-            {
-                if (_bricks[i].Position.Y < Player._instance.Position.Y) _bricks.Remove(_bricks[i]);
-            }
+           
         }
 
         public void Draw(SpriteBatch sp, GameTime gametime)

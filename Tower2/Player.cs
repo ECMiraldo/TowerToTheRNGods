@@ -26,7 +26,7 @@ namespace Tower2
         private List<Texture2D> _idleFrames;
         private List<Texture2D> _walkFrames;
 
-        public Player(Game1 game1) : base("idle", new Vector2(5f, 10f), game1.playersizemult, Enumerable.Range(0, 9).Select(n => game1.Content.Load<Texture2D>($"playersprites/Stand/{n}")).ToArray())
+        public Player(Game1 game1) : base("idle", new Vector2(5f, 10f), new Vector2(0.5f, 0.5f), Enumerable.Range(0, 9).Select(n => game1.Content.Load<Texture2D>($"playersprites/Stand/{n}")).ToArray())
         {
             _instance = this;
             _idleFrames = _textures; // loaded by the base construtor
@@ -39,7 +39,7 @@ namespace Tower2
             AddRectangleBody(
                 _game.Services.GetService<World>(), _size.X*1.8f, _size.Y*2.4f //Some magic numbers cause collider was offset
             ) ; // kinematic is false by default
-
+            this.Body.BodyType = BodyType.Static;
             Fixture sensor = FixtureFactory.AttachRectangle(
                 _size.X / 3f, _size.Y * 0.05f,
                 4, new Vector2(0, -_size.Y / 2f),

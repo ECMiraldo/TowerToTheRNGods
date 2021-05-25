@@ -19,13 +19,13 @@ namespace IPCA.MonoGame
 
         // TODO: we should not duplicate textures on each instance
         protected Texture2D _texture;
-        public Sprite(string name, Texture2D texture, Vector2 position, float sizemult = 1,
+        public Sprite(string name, Texture2D texture, Vector2 position, Vector2 size,
             bool offset = false) : base(name, position)
         {
             _texture = texture;
-            _size = _texture.Bounds.Size.ToVector2() / sizemult;  // TODO: HARDCODED!
+            _size = size;  // TODO: HARDCODED!
             if (offset)
-                _position = position + new Vector2(_size.X, _size.Y) / 2f; // Anchor in the middle
+                    _position = position + new Vector2(_size.X, _size.Y) / 2f; // Anchor in the middle
         }
 
 

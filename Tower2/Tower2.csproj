@@ -32,6 +32,12 @@
     <None Update="Content\brick sprite.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Content\platform big.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Content\platform small.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Content\playersprites\Cast1H\0.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

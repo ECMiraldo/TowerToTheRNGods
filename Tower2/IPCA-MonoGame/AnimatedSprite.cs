@@ -14,8 +14,8 @@ namespace IPCA.MonoGame
         private double _delay => 1.0f / _fps;
         private double _timer = 0f;
         
-        public AnimatedSprite(string name, Vector2 position, float sizemult, Texture2D[] textures) : 
-            base(name, textures[0], position, sizemult)
+        public AnimatedSprite(string name, Vector2 position, Vector2 size, Texture2D[] textures) : 
+            base(name, textures[0], position, size)
         {
             _textures = textures.ToList();
         }
