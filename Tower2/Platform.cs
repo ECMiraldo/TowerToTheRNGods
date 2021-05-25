@@ -7,16 +7,16 @@ using IPCA.MonoGame;
 
 namespace Tower2
 {
-    class Platform
+    public class PlatformBig : Sprite
     {
-        private Sprite _sprite;
-        private Vector2 pos;
-        private Vector2 size;
 
-        public Platform(Vector2 pos, Vector2 size)
+        private Game1 game;
+        public PlatformBig(Game1 game, Vector2 position, bool offset = false) :
+                base("platform big", game.Content.Load<Texture2D>("platform big"), position, new Vector2(5f, 0.5f))
         {
-            this.pos = pos;
-            this.size = size;
+            this.game = game;
+            AddRectangleBody(this.game.Services.GetService<World>(), _size.X, _size.Y);
+            Body.BodyType = BodyType.Static;
         }
     }
 }

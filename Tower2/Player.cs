@@ -39,7 +39,6 @@ namespace Tower2
             AddRectangleBody(
                 _game.Services.GetService<World>(), _size.X*1.8f, _size.Y*2.4f //Some magic numbers cause collider was offset
             ) ; // kinematic is false by default
-            this.Body.BodyType = BodyType.Static;
             Fixture sensor = FixtureFactory.AttachRectangle(
                 _size.X / 3f, _size.Y * 0.05f,
                 4, new Vector2(0, -_size.Y / 2f),
@@ -58,16 +57,16 @@ namespace Tower2
                 KeysState.GoingDown,
                 () =>
                 {
-                    if (_isGrounded) Body.ApplyForce(new Vector2(0, 200f));
+                    /*if (_isGrounded)*/ Body.ApplyForce(new Vector2(0, 350f));
                 });
             KeyboardManager.Register(
                 Keys.A,
                 KeysState.Down,
-                () => { Body.ApplyForce(new Vector2(-5, 0)); });
+                () => { Body.ApplyForce(new Vector2(-12.5f, 0)); });
             KeyboardManager.Register(
                 Keys.D,
                 KeysState.Down,
-                () => { Body.ApplyForce(new Vector2(5f, 0)); });
+                () => { Body.ApplyForce(new Vector2(12.5f, 0)); });
 
 
 

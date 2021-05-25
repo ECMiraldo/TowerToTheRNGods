@@ -19,10 +19,5 @@ namespace Tower2
             AddRectangleBody(this.game.Services.GetService<World>(), _size.X, _size.Y);
             Body.BodyType = BodyType.Static;
         }
-
-
-
-
-
     }
 }

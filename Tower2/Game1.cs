@@ -20,7 +20,7 @@ namespace Tower2
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             new KeyboardManager(this);
-            _world = new World(new Vector2(0, -2f));
+            _world = new World(new Vector2(0, -10f));
             Services.AddService(_world);
         }
 
