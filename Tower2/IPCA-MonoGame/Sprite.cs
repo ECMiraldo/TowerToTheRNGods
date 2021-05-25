@@ -17,11 +17,18 @@ namespace IPCA.MonoGame
         }
         protected Direction _direction = Direction.Right;
 
+        //As we are not using Hyperlap, we need sizemult in order to correctly scale sprites in relation to one another;
+        //128f = Player/platform
+
+        private float sizemult; 
+
+
         // TODO: we should not duplicate textures on each instance
         protected Texture2D _texture;
-        public Sprite(string name, Texture2D texture, Vector2 position, Vector2 size,
+        public Sprite(string name, Texture2D texture, Vector2 position, Vector2 size, float sizemult,
             bool offset = false) : base(name, position)
         {
+            this.sizemult = sizemult;
             _texture = texture;
             _size = size;  // TODO: HARDCODED!
             if (offset)
@@ -39,7 +46,7 @@ namespace IPCA.MonoGame
             Vector2 pos = Camera.Position2Pixels(_position);
             Vector2 anchor = _texture.Bounds.Size.ToVector2() / 2f;
 
-            Vector2 scale = Camera.Length2Pixels(_size) / 128f; // TODO: HARDCODED!
+            Vector2 scale = Camera.Length2Pixels(_size) / sizemult; // TODO: HARDCODED!
             scale.Y = scale.X;  // FIXME! TODO: HACK HACK HACK
 
             spriteBatch.Draw(_texture, pos, null, Color.White,

@@ -12,7 +12,7 @@ namespace Tower2
 
         private Game1 game;
         public PlatformBig(Game1 game, Vector2 position, bool offset = false) :
-                base("platform big", game.Content.Load<Texture2D>("platform big"), position, new Vector2(5f, 0.5f))
+                base("platform big", game.Content.Load<Texture2D>("platform big"), position, new Vector2(5f, 0.5f), 128f)
         {
             this.game = game;
             AddRectangleBody(this.game.Services.GetService<World>(), _size.X, _size.Y);

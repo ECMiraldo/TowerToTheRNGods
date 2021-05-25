@@ -13,7 +13,7 @@ namespace Tower2
     {
         private Game1 game;
         public Brick(Game1 game, Vector2 position, bool offset = false) : 
-                base("brick", game.Content.Load<Texture2D>("brick sprite"), position, new Vector2(0.5f, 1f))
+                base("brick", game.Content.Load<Texture2D>("brick sprite"), position, new Vector2(0.5f, 1f), 16f)
         {
             this.game = game;
             AddRectangleBody(this.game.Services.GetService<World>(), _size.X, _size.Y);
