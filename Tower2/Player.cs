@@ -22,6 +22,7 @@ namespace Tower2
 
         private Game1 _game;
         private bool _isGrounded = false;
+        private bool canjump = true;
 
         private List<Texture2D> _idleFrames;
         private List<Texture2D> _walkFrames;
@@ -41,7 +42,7 @@ namespace Tower2
             ) ; // kinematic is false by default
             Fixture sensor = FixtureFactory.AttachRectangle(
                 _size.X / 3f, _size.Y * 0.05f,
-                4, new Vector2(0, -_size.Y / 2f),
+                1, new Vector2(0, -_size.Y -0.1f),
                 Body);
             sensor.IsSensor = true;
 
@@ -57,7 +58,17 @@ namespace Tower2
                 KeysState.GoingDown,
                 () =>
                 {
-                    /*if (_isGrounded)*/ Body.ApplyForce(new Vector2(0, 375f));
+                    if (_isGrounded)
+                    {
+                        Body.ApplyForce(new Vector2(0, 375f));
+                        canjump = true;
+
+                    }
+                    else if(canjump == true)
+                    {
+                        canjump = false;
+                        Body.ApplyForce(new Vector2(0, 300f));
+                    }
                 });
             KeyboardManager.Register(
                 Keys.A,

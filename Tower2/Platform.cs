@@ -14,7 +14,7 @@ namespace Tower2
                                //pos max = 9.5 - 2.5 = 7
         public PlatformBig(Game1 game, Vector2 position, bool offset = false) :
                     //name              //texture                                           //size(virtual world)  //sizemult(para o draw da sprite) é experimentar e ver
-                base("platform big", game.Content.Load<Texture2D>("platform big"), position, new Vector2(5f, 0.5f), 128f)
+                base("platform", game.Content.Load<Texture2D>("platform big"), position, new Vector2(5f, 0.5f), 128f)
         {
             this.game = game;
             //pos min = 0.5 + size/2 = 0.5 + 2.5 = 3
@@ -29,7 +29,7 @@ namespace Tower2
         private Game1 game;
         public PlatformSmall(Game1 game, Vector2 position, bool offset = false) :
                 //name              //texture                                           //size(virtual world)  //sizemult(para o draw da sprite) é experimentar e ver
-                base("platform small", game.Content.Load<Texture2D>("platform small"), position, new Vector2(2.5f, 0.5f), 64f)
+                base("platform", game.Content.Load<Texture2D>("platform small"), position, new Vector2(2.5f, 0.5f), 64f)
         {
             this.game = game;
             //pos min = 0.5 + size / 2 = 0.5 + 1.25 = 1.75
