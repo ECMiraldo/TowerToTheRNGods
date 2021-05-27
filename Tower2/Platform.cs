@@ -20,4 +20,43 @@ namespace Tower2
             Body.BodyType = BodyType.Static;
         }
     }
+
+    public class PlatformSmall: Sprite
+    {
+        private Game1 game;
+        public PlatformSmall(Game1 game, Vector2 position, bool offset = false) :
+                //name              //texture                                           //size(virtual world)  //sizemult(para o draw da sprite) é experimentar e ver
+                base("platform small", game.Content.Load<Texture2D>("platform small"), position, new Vector2(2.5f, 0.5f), 128f)
+        {
+            this.game = game;
+            AddRectangleBody(this.game.Services.GetService<World>(), _size.X, _size.Y);
+            Body.BodyType = BodyType.Static;
+        }
+    }
+
+    public class SpikesBig : Sprite
+    {
+        private Game1 game;
+        public SpikesBig(Game1 game, Vector2 position, bool offset = false) :
+                //name              //texture                                           //size(virtual world)  //sizemult(para o draw da sprite) é experimentar e ver
+                base("platform small", game.Content.Load<Texture2D>("platform small"), position, new Vector2(5f, 0.25f), 128f)
+        {
+            this.game = game;
+            AddRectangleBody(this.game.Services.GetService<World>(), _size.X, _size.Y);
+            Body.BodyType = BodyType.Static;
+        }
+    }
+
+    public class SpikesSmall : Sprite
+    {
+        private Game1 game;
+        public SpikesSmall(Game1 game, Vector2 position, bool offset = false) :
+                //name              //texture                                           //size(virtual world)  //sizemult(para o draw da sprite) é experimentar e ver
+                base("platform small", game.Content.Load<Texture2D>("platform small"), position, new Vector2(2.5f, 0.25f), 128f)
+        {
+            this.game = game;
+            AddRectangleBody(this.game.Services.GetService<World>(), _size.X, _size.Y);
+            Body.BodyType = BodyType.Static;
+        }
+    }
 }

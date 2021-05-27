@@ -61,7 +61,7 @@ namespace Tower2
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin();
             Player._instance.Draw(_spriteBatch, gameTime);
             Tower._instance.Draw(_spriteBatch, gameTime);
