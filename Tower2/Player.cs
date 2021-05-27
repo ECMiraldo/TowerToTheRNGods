@@ -19,6 +19,10 @@ namespace Tower2
         private Status _status = Status.Idle;
 
         public static Player _instance;
+        private int _lives;
+        private int _coins;
+
+
 
         private Game1 _game;
         private bool _isGrounded = false;
@@ -27,6 +31,8 @@ namespace Tower2
 
         private List<Texture2D> _idleFrames;
         private List<Texture2D> _walkFrames;
+        private Texture2D _teleport;
+        private List<Bullet> _bullets;
 
         public Player(Game1 game1) : base("idle", new Vector2(5f, 10f), new Vector2(0.5f, 0.5f), 128f, Enumerable.Range(0, 9).Select(n => game1.Content.Load<Texture2D>($"playersprites/Stand/{n}")).ToArray())
         {
@@ -36,7 +42,8 @@ namespace Tower2
             _walkFrames = Enumerable.Range(0, 9).Select(n => game1.Content.Load<Texture2D>($"playersprites/Walk/{n}")).ToList();
 
             _game = game1;
-
+            _teleport = _game.Content.Load<Texture2D>("fireball");
+            _bullets = new List<Bullet>();
 
             AddRectangleBody(
                 _game.Services.GetService<World>(), _size.X*1.6f, _size.Y*2.4f //Some magic numbers cause collider was offset
@@ -106,6 +113,23 @@ namespace Tower2
                 KeysState.Down,
                 () => { Body.ApplyForce(new Vector2(12.5f, 0)); });
 
+            KeyboardManager.Register(
+               Keys.F, KeysState.GoingDown,
+               () =>
+               {
+                   Vector2 pixelClick = Mouse.GetState().Position.ToVector2();
+                   Vector2 pixelDyno = Camera.Position2Pixels(_position);
+                   Vector2 delta = pixelClick - pixelDyno;
+                   delta.Normalize();
+                   delta.Y = -delta.Y; // Invert for "virtual" world
+                    Vector2 dir = 5f * delta;
+
+                   Bullet bullet = new Bullet(_teleport, _position,
+                       dir, game1.Services.GetService<World>());
+                   _bullets.Add(bullet);
+               }
+               );
+
 
 
         }
@@ -130,12 +154,14 @@ namespace Tower2
             else if (Body.LinearVelocity.X > 0f) _direction = Direction.Right;
 
             base.Update(gameTime);
-            //Camera.LookAt(_position);
+            _bullets = _bullets.Where(b => !b.IsDead).ToList();
         }
 
         public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             base.Draw(spriteBatch, gameTime);
+            foreach (Bullet bullet in _bullets)
+                bullet.Draw(spriteBatch, gameTime);
         }
     }
 }

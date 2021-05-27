@@ -80,6 +80,9 @@
     <None Update="Content\crystal\crystal 8.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Content\fireball.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Content\platform big.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
