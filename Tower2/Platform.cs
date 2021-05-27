@@ -16,6 +16,9 @@ namespace Tower2
                 base("platform big", game.Content.Load<Texture2D>("platform big"), position, new Vector2(5f, 0.5f), 128f)
         {
             this.game = game;
+            //Pos min = 
+            if (_position.X < 0.5 + _size.X/2) _position.X = 0.5f + _size.X/2;
+            if (_position.X > 9.5 - _size.X / 2) _position.X = 9.5f - _size.X / 2;
             AddRectangleBody(this.game.Services.GetService<World>(), _size.X, _size.Y);
             Body.BodyType = BodyType.Static;
         }
@@ -26,9 +29,11 @@ namespace Tower2
         private Game1 game;
         public PlatformSmall(Game1 game, Vector2 position, bool offset = false) :
                 //name              //texture                                           //size(virtual world)  //sizemult(para o draw da sprite) é experimentar e ver
-                base("platform small", game.Content.Load<Texture2D>("platform small"), position, new Vector2(2.5f, 0.5f), 128f)
+                base("platform small", game.Content.Load<Texture2D>("platform small"), position, new Vector2(2.5f, 0.5f), 64f)
         {
             this.game = game;
+            if (_position.X < 0.5 + _size.X/2) _position.X = 0.5f + _size.X/2;
+            if (_position.X > 9.5 - _size.X / 2) _position.X = 9.5f - _size.X / 2;
             AddRectangleBody(this.game.Services.GetService<World>(), _size.X, _size.Y);
             Body.BodyType = BodyType.Static;
         }
@@ -42,6 +47,8 @@ namespace Tower2
                 base("spikes big", game.Content.Load<Texture2D>("spikes big"), position, new Vector2(5f, 0.25f), 128f)
         {
             this.game = game;
+            if (_position.X < 0.5 + _size.X/2) _position.X = 0.5f + _size.X/2;
+            if (_position.X > 9.5 - _size.X / 2) _position.X = 9.5f - _size.X / 2;
             AddRectangleBody(this.game.Services.GetService<World>(), _size.X, _size.Y);
             Body.BodyType = BodyType.Static;
         }
@@ -52,9 +59,11 @@ namespace Tower2
         private Game1 game;
         public SpikesSmall(Game1 game, Vector2 position, bool offset = false) :
                 //name              //texture                                           //size(virtual world)  //sizemult(para o draw da sprite) é experimentar e ver
-                base("spikes small", game.Content.Load<Texture2D>("spikes small"), position, new Vector2(2.5f, 0.25f), 128f)
+                base("spikes small", game.Content.Load<Texture2D>("spikes small"), position, new Vector2(2.5f, 0.25f), 64f)
         {
             this.game = game;
+            if (_position.X < 0.5 + _size.X/2) _position.X = 0.5f + _size.X/2;
+            if (_position.X > 9.5 - _size.X/2) _position.X = 9.5f - _size.X/2;
             AddRectangleBody(this.game.Services.GetService<World>(), _size.X, _size.Y);
             Body.BodyType = BodyType.Static;
         }

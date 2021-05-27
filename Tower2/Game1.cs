@@ -56,7 +56,7 @@ namespace Tower2
             _world.Step((float)gameTime.ElapsedGameTime.TotalMilliseconds * 0.001f);
             Player._instance.Update(gameTime);
             Tower._instance.Update(gameTime);
-            Camera.Update(gameTime);
+            //Camera.Update(gameTime);
             base.Update(gameTime);
         }
 
