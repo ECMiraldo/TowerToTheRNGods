@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Genbox.VelcroPhysics.Dynamics;
+﻿using Genbox.VelcroPhysics.Dynamics;
 using Genbox.VelcroPhysics.Factories;
+using IPCA.MonoGame;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using IPCA.MonoGame;
+using System.Collections.Generic;
+using System.Linq;
 
 
 namespace Tower2
@@ -22,7 +22,8 @@ namespace Tower2
 
         private Game1 _game;
         private bool _isGrounded = false;
-        private bool canjump = true;
+        private bool candoublejump = false;
+        private bool canwalljump = false;
 
         private List<Texture2D> _idleFrames;
         private List<Texture2D> _walkFrames;
@@ -38,20 +39,45 @@ namespace Tower2
 
 
             AddRectangleBody(
-                _game.Services.GetService<World>(), _size.X*1.8f, _size.Y*2.4f //Some magic numbers cause collider was offset
+                _game.Services.GetService<World>(), _size.X*1.6f, _size.Y*2.4f //Some magic numbers cause collider was offset
             ) ; // kinematic is false by default
-            Fixture sensor = FixtureFactory.AttachRectangle(
-                _size.X / 3f, _size.Y * 0.05f,
+            Fixture Bottom = FixtureFactory.AttachRectangle(
+                _size.X, _size.Y * 0.05f,
                 1, new Vector2(0, -_size.Y -0.1f),
                 Body);
-            sensor.IsSensor = true;
+            Bottom.IsSensor = true;
 
-            sensor.OnCollision = (a, b, contact) =>
+            Bottom.OnCollision = (a, b, contact) =>
             {
                 if (b.GameObject().Name != "bullet")
                     _isGrounded = true;
             };
-            sensor.OnSeparation = (a, b, contact) => _isGrounded = false;
+            Bottom.OnSeparation = (a, b, contact) => _isGrounded = false;
+
+
+            Fixture left = FixtureFactory.AttachRectangle(
+                _size.X *0.2f, _size.Y,
+                1, new Vector2(-_size.X * 0.8f, 0),
+                Body);
+            left.IsSensor = true;
+
+            left.OnCollision = (a, b, contact) =>
+            {
+                if (b.GameObject().Name == "brick") canwalljump = true;
+            };
+            left.OnSeparation = (a, b, contact) => canwalljump = false;
+
+            Fixture right = FixtureFactory.AttachRectangle(
+                _size.X * 0.2f, _size.Y,
+                1, new Vector2(_size.X * 0.8f, 0),
+                Body);
+            right.IsSensor = true;
+
+            right.OnCollision = (a, b, contact) =>
+            {
+                if (b.GameObject().Name == "brick") canwalljump = true;
+            };
+            right.OnSeparation = (a, b, contact) => canwalljump = false;
 
             KeyboardManager.Register(
                 Keys.Space,
@@ -61,14 +87,15 @@ namespace Tower2
                     if (_isGrounded)
                     {
                         Body.ApplyForce(new Vector2(0, 375f));
-                        canjump = true;
-
+                        candoublejump = true;
                     }
-                    else if(canjump == true)
+                    else if (candoublejump)
                     {
-                        canjump = false;
-                        Body.ApplyForce(new Vector2(0, 300f));
+                        candoublejump = false;
+                        Body.ApplyForce(new Vector2(0, 250f));
                     }
+                    else if (canwalljump && KeyboardManager.IsKeyDown(Keys.A)) Body.ApplyForce(new Vector2(-250f, 350f));
+                    else  if (canwalljump && KeyboardManager.IsKeyDown(Keys.D)) Body.ApplyForce(new Vector2(250f, 350f));
                 });
             KeyboardManager.Register(
                 Keys.A,

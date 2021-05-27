@@ -5,6 +5,8 @@ using System.Runtime;
 using IPCA.MonoGame;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Genbox.VelcroPhysics.Dynamics;
+using Genbox.VelcroPhysics.Factories;
 
 namespace Tower2
 {
@@ -33,33 +35,39 @@ namespace Tower2
             rng = new Random();
 
             //Systema para gerar uma seed random no começo do jogo
-            for (float i = 2; i <= 21; i = i + 3)
+            for (_height = 2; _height <= 21; _height = _height + 3)
             {
                 _random = rng.Next(0, 10);
                 if (_random >= 5)  //platform big
                 {
                     float Xpos = rng.Next(3, 7);
-                    _pool.Add(new PlatformBig(game, new Vector2(Xpos, i)));
+                    PlatformBig plat = new PlatformBig(game, new Vector2(Xpos, _height));
+                    Body aux = plat.Body;
+                    _pool.Add(plat);
                     _random = rng.Next(0, 10);
                     if (_random >= 5)  // Spawn spikes
                     {
-                        float posY = i - 0.5f;
-                        _pool.Add(new SpikesBig(game, new Vector2(Xpos, posY)));
+                        float posY = _height - 0.5f;
+                        SpikesBig sB = new SpikesBig(game, new Vector2(Xpos, posY));
+                        _pool.Add(sB);
+                        Fixture spikes = FixtureFactory.AttachRectangle(plat._size.X, plat._size.Y * 0.1f, 1, new Vector2(0, -0.4f), plat.Body);
                     }
                 }
                 else { //platform small
-                    float Xpos = rng.Next(2, 8);
-                    _pool.Add(new PlatformSmall(game, new Vector2(Xpos, i)));
+                    float Xpos = rng.Next(3, 7);
+                    PlatformSmall plat = new PlatformSmall(game, new Vector2(Xpos, _height));
+                    Body aux = plat.Body;
+                    _pool.Add(plat);
                     _random = rng.Next(0, 10);
                     if (_random >= 5)  // Spawn spikes
                     {
-                        float posY = i - 0.5f;
-                        _pool.Add(new SpikesSmall(game, new Vector2(Xpos, posY)));
+                        float posY = _height - 0.5f;
+                        SpikesSmall sB = new SpikesSmall(game, new Vector2(Xpos, posY));
+                        _pool.Add(sB);
+                        Fixture spikes = FixtureFactory.AttachRectangle(plat._size.X, plat._size.Y * 0.2f, 1, new Vector2(0, -0.2f), plat.Body);
                     }
                 }
-                _height = i;
             }
-            _height = _height + 3;
         }
 
         
@@ -96,24 +104,32 @@ namespace Tower2
                 if (_random >= 5)  //platform big
                 {
                     float Xpos = rng.Next(3, 7);
-                    _pool.Add(new PlatformBig(game, new Vector2(Xpos, _height)));
+                    PlatformBig plat = new PlatformBig(game, new Vector2(Xpos, _height));
+                    Body aux = plat.Body;
+                    _pool.Add(plat);
                     _random = rng.Next(0, 10);
                     if (_random >= 5)  // Spawn spikes
                     {
                         float posY = _height - 0.5f;
-                        _pool.Add(new SpikesBig(game, new Vector2(Xpos, posY)));
+                        SpikesBig sB = new SpikesBig(game, new Vector2(Xpos, posY));
+                        _pool.Add(sB);
+                        Fixture spikes = FixtureFactory.AttachRectangle(plat._size.X, plat._size.Y * 0.1f, 1, new Vector2(0, -0.4f), plat.Body);
                     }
                 }
                 else
                 { //platform small
-                    float Xpos = rng.Next(2, 8);
-                    _pool.Add(new PlatformSmall(game, new Vector2(Xpos, _height)));
+                    float Xpos = rng.Next(3, 7);
+                    PlatformSmall plat = new PlatformSmall(game, new Vector2(Xpos, _height));
+                    Body aux = plat.Body;
+                    _pool.Add(plat);
                     _random = rng.Next(0, 10);
                     if (_random >= 5)  // Spawn spikes
                     {
                         float posY = _height - 0.5f;
-                        _pool.Add(new SpikesSmall(game, new Vector2(Xpos, posY)));
-                    }
+                        SpikesSmall sB = new SpikesSmall(game, new Vector2(Xpos, posY));
+                        _pool.Add(sB);
+                        Fixture spikes = FixtureFactory.AttachRectangle(plat._size.X, plat._size.Y * 0.2f, 1, new Vector2(0, -0.2f), plat.Body);
+                    }  
                 }
                 _height = _height + 3;
             }
