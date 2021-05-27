@@ -57,7 +57,7 @@ namespace Tower2
                 KeysState.GoingDown,
                 () =>
                 {
-                    /*if (_isGrounded)*/ Body.ApplyForce(new Vector2(0, 350f));
+                    /*if (_isGrounded)*/ Body.ApplyForce(new Vector2(0, 375f));
                 });
             KeyboardManager.Register(
                 Keys.A,

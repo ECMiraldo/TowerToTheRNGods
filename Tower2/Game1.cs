@@ -66,8 +66,9 @@ namespace Tower2
             GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin();
             Player._instance.Draw(_spriteBatch, gameTime);
-            Tower._instance.Draw(_spriteBatch, gameTime);
             ObjectPool._instance.Draw(_spriteBatch, gameTime);
+            Tower._instance.Draw(_spriteBatch, gameTime);
+            
                 _spriteBatch.End();
             base.Draw(gameTime);
         }
