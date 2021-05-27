@@ -39,7 +39,7 @@ namespace Tower2
         private Game1 game;
         public SpikesBig(Game1 game, Vector2 position, bool offset = false) :
                 //name              //texture                                           //size(virtual world)  //sizemult(para o draw da sprite) é experimentar e ver
-                base("platform small", game.Content.Load<Texture2D>("platform small"), position, new Vector2(5f, 0.25f), 128f)
+                base("spikes big", game.Content.Load<Texture2D>("spikes big"), position, new Vector2(5f, 0.25f), 128f)
         {
             this.game = game;
             AddRectangleBody(this.game.Services.GetService<World>(), _size.X, _size.Y);
@@ -52,7 +52,7 @@ namespace Tower2
         private Game1 game;
         public SpikesSmall(Game1 game, Vector2 position, bool offset = false) :
                 //name              //texture                                           //size(virtual world)  //sizemult(para o draw da sprite) é experimentar e ver
-                base("platform small", game.Content.Load<Texture2D>("platform small"), position, new Vector2(2.5f, 0.25f), 128f)
+                base("spikes small", game.Content.Load<Texture2D>("spikes small"), position, new Vector2(2.5f, 0.25f), 128f)
         {
             this.game = game;
             AddRectangleBody(this.game.Services.GetService<World>(), _size.X, _size.Y);

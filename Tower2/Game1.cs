@@ -34,6 +34,7 @@ namespace Tower2
             base.Initialize();
             new Player(this);
             new Tower(this);
+            new ObjectPool(this);
             Camera.LookAt(Camera.WorldSize / 2f);
         }
 
@@ -65,6 +66,7 @@ namespace Tower2
             _spriteBatch.Begin();
             Player._instance.Draw(_spriteBatch, gameTime);
             Tower._instance.Draw(_spriteBatch, gameTime);
+            ObjectPool._instance.Draw(_spriteBatch, gameTime);
                 _spriteBatch.End();
             base.Draw(gameTime);
         }
