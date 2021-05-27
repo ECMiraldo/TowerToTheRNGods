@@ -126,7 +126,7 @@ namespace IPCA.MonoGame
 
         private void _Update(GameTime gametime)
         {
-            _target = _target + new Vector2(0, 0.005f);
+            _target = _target + new Vector2(0, 0.01f);
         }
     }
 }

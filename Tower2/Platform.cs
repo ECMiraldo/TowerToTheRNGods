@@ -10,15 +10,15 @@ namespace Tower2
     public class PlatformBig : Sprite
     {
 
-        private Game1 game;
+        private Game1 game;    //pos min = 0.5 + size/2 = 0.5 + 2.5 = 3
+                               //pos max = 9.5 - 2.5 = 7
         public PlatformBig(Game1 game, Vector2 position, bool offset = false) :
                     //name              //texture                                           //size(virtual world)  //sizemult(para o draw da sprite) é experimentar e ver
                 base("platform big", game.Content.Load<Texture2D>("platform big"), position, new Vector2(5f, 0.5f), 128f)
         {
             this.game = game;
-            //Pos min = 
-            if (_position.X < 0.5 + _size.X/2) _position.X = 0.5f + _size.X/2;
-            if (_position.X > 9.5 - _size.X / 2) _position.X = 9.5f - _size.X / 2;
+            //pos min = 0.5 + size/2 = 0.5 + 2.5 = 3
+            //pos max = 9.5 - 2.5 = 7
             AddRectangleBody(this.game.Services.GetService<World>(), _size.X, _size.Y);
             Body.BodyType = BodyType.Static;
         }
@@ -32,8 +32,8 @@ namespace Tower2
                 base("platform small", game.Content.Load<Texture2D>("platform small"), position, new Vector2(2.5f, 0.5f), 64f)
         {
             this.game = game;
-            if (_position.X < 0.5 + _size.X/2) _position.X = 0.5f + _size.X/2;
-            if (_position.X > 9.5 - _size.X / 2) _position.X = 9.5f - _size.X / 2;
+            //pos min = 0.5 + size / 2 = 0.5 + 1.25 = 1.75
+            //pos max = 9.5 - 1.25 = 8.25
             AddRectangleBody(this.game.Services.GetService<World>(), _size.X, _size.Y);
             Body.BodyType = BodyType.Static;
         }
@@ -47,9 +47,9 @@ namespace Tower2
                 base("spikes big", game.Content.Load<Texture2D>("spikes big"), position, new Vector2(5f, 0.25f), 128f)
         {
             this.game = game;
-            if (_position.X < 0.5 + _size.X/2) _position.X = 0.5f + _size.X/2;
-            if (_position.X > 9.5 - _size.X / 2) _position.X = 9.5f - _size.X / 2;
-            AddRectangleBody(this.game.Services.GetService<World>(), _size.X, _size.Y);
+            //pos min = 0.5 + size/2 = 0.5 + 2.5 = 3
+            //pos max = 9.5 - 2.5 = 7
+            AddRectangleBody(this.game.Services.GetService<World>(), _size.X, _size.Y );
             Body.BodyType = BodyType.Static;
         }
     }
@@ -62,9 +62,9 @@ namespace Tower2
                 base("spikes small", game.Content.Load<Texture2D>("spikes small"), position, new Vector2(2.5f, 0.25f), 64f)
         {
             this.game = game;
-            if (_position.X < 0.5 + _size.X/2) _position.X = 0.5f + _size.X/2;
-            if (_position.X > 9.5 - _size.X/2) _position.X = 9.5f - _size.X/2;
-            AddRectangleBody(this.game.Services.GetService<World>(), _size.X, _size.Y);
+            //pos min = 0.5 + size / 2 = 0.5 + 1.25 = 1.75
+            //pos max = 9.5 - 1.25 = 8.25
+            AddRectangleBody(this.game.Services.GetService<World>(), _size.X , _size.Y );
             Body.BodyType = BodyType.Static;
         }
     }

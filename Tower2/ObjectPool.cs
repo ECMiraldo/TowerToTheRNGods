@@ -23,6 +23,7 @@ namespace Tower2
         private List<GameObject> _pool;
         private Random rng;
         private int _random;
+        private float _height;
 
         public ObjectPool(Game1 game)
         {
@@ -32,35 +33,48 @@ namespace Tower2
             rng = new Random();
 
             //Systema para gerar uma seed random no começo do jogo
-            for (float i = 2; i < 20; i = i + 3)
+            for (float i = 2; i <= 21; i = i + 3)
             {
                 _random = rng.Next(0, 10);
                 if (_random >= 5)  //platform big
                 {
-                    float Xpos = GetRandomX();
+                    float Xpos = rng.Next(3, 7);
                     _pool.Add(new PlatformBig(game, new Vector2(Xpos, i)));
                     _random = rng.Next(0, 10);
                     if (_random >= 5)  // Spawn spikes
                     {
-                        _pool.Add(new SpikesBig(game, new Vector2(Xpos, i-0.5f)));
+                        float posY = i - 0.5f;
+                        _pool.Add(new SpikesBig(game, new Vector2(Xpos, posY)));
                     }
                 }
                 else { //platform small
-                    float Xpos = GetRandomX();
+                    float Xpos = rng.Next(2, 8);
                     _pool.Add(new PlatformSmall(game, new Vector2(Xpos, i)));
                     _random = rng.Next(0, 10);
                     if (_random >= 5)  // Spawn spikes
                     {
-                        _pool.Add(new SpikesSmall(game, new Vector2(Xpos, i-0.5f)));
+                        float posY = i - 0.5f;
+                        _pool.Add(new SpikesSmall(game, new Vector2(Xpos, posY)));
                     }
                 }
+                _height = i;
             }
+            _height = _height + 3;
         }
 
         
-        public void Update()
+        public void Update(GameTime gametime)
         {
-            rng.Next(0, 100);
+            this.SpawnPlatforms(gametime);
+
+
+
+
+
+
+
+
+
         }
 
 
@@ -72,6 +86,40 @@ namespace Tower2
             if (aux < 0.5f) aux = aux + 0.5f;
             return aux;
         }
+
+        public void SpawnPlatforms(GameTime gametime)
+        {
+            
+            while(_height < Camera.Target.Y + 11f)
+            {
+                _random = rng.Next(0, 10);
+                if (_random >= 5)  //platform big
+                {
+                    float Xpos = rng.Next(3, 7);
+                    _pool.Add(new PlatformBig(game, new Vector2(Xpos, _height)));
+                    _random = rng.Next(0, 10);
+                    if (_random >= 5)  // Spawn spikes
+                    {
+                        float posY = _height - 0.5f;
+                        _pool.Add(new SpikesBig(game, new Vector2(Xpos, posY)));
+                    }
+                }
+                else
+                { //platform small
+                    float Xpos = rng.Next(2, 8);
+                    _pool.Add(new PlatformSmall(game, new Vector2(Xpos, _height)));
+                    _random = rng.Next(0, 10);
+                    if (_random >= 5)  // Spawn spikes
+                    {
+                        float posY = _height - 0.5f;
+                        _pool.Add(new SpikesSmall(game, new Vector2(Xpos, posY)));
+                    }
+                }
+                _height = _height + 3;
+            }
+
+        }
+
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
