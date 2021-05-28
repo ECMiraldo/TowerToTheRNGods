@@ -14,13 +14,14 @@ namespace Tower2
     {
         enum Status
         {
-            Idle, Walk,
+            Idle, Walk, Cast,
         }
         private Status _status = Status.Idle;
 
         public static Player _instance;
         private int _lives;
         private int _coins;
+        private int crystals;
 
 
 
@@ -31,8 +32,10 @@ namespace Tower2
 
         private List<Texture2D> _idleFrames;
         private List<Texture2D> _walkFrames;
-        private Texture2D _teleport;
+        private List<Texture2D> _castFrames;
+        private Texture2D _bullet;
         private List<ITempObject> _objects;
+        private AnimatedSprite Aura;
 
         public Player(Game1 game1) : base("idle", new Vector2(5f, 10f), new Vector2(0.5f, 0.5f), 128f, Enumerable.Range(0, 9).Select(n => game1.Content.Load<Texture2D>($"playersprites/Stand/{n}")).ToArray())
         {
@@ -40,10 +43,16 @@ namespace Tower2
             _idleFrames = _textures; // loaded by the base construtor
 
             _walkFrames = Enumerable.Range(0, 9).Select(n => game1.Content.Load<Texture2D>($"playersprites/Walk/{n}")).ToList();
+            _castFrames = Enumerable.Range(0, 9).Select(n => game1.Content.Load<Texture2D>($"playersprites/Cast1H/{n}")).ToList();
 
             _game = game1;
-            _teleport = _game.Content.Load<Texture2D>("fireball");
+            _bullet = _game.Content.Load<Texture2D>("fireball");
             _objects = new List<ITempObject>();
+
+
+            crystals = 3;
+            _lives = 3;
+            _coins = 0;
 
             AddRectangleBody(
                 _game.Services.GetService<World>(), _size.X*1.6f, _size.Y*2.4f //Some magic numbers cause collider was offset
@@ -99,10 +108,10 @@ namespace Tower2
                     else if (candoublejump)
                     {
                         candoublejump = false;
-                        Body.ApplyForce(new Vector2(0, 275f));
+                        Body.ApplyForce(new Vector2(0, 300f));
                     }
-                    else if (canwalljump && KeyboardManager.IsKeyDown(Keys.A)) Body.ApplyForce(new Vector2(-200f, 400f));
-                    else  if (canwalljump && KeyboardManager.IsKeyDown(Keys.D)) Body.ApplyForce(new Vector2(200f, 400f));
+                    else if (canwalljump && KeyboardManager.IsKeyDown(Keys.A)) Body.ApplyForce(new Vector2(-100f, 500f));
+                    else  if (canwalljump && KeyboardManager.IsKeyDown(Keys.D)) Body.ApplyForce(new Vector2(100f, 500f));
                 });
             KeyboardManager.Register(
                 Keys.A,
@@ -117,27 +126,49 @@ namespace Tower2
                Keys.F, KeysState.GoingDown,
                () =>
                {
-                   Vector2 pixelClick = Mouse.GetState().Position.ToVector2();
-                   Vector2 pixelPlayer = Camera.Position2Pixels(_position);
-                   Vector2 delta = pixelClick - pixelPlayer;
-                   delta.Normalize();
-                   delta.Y = -delta.Y; // Invert for "virtual" world
-                    Vector2 dir = 5f * delta;
+                   if (crystals > 0)
+                   {
+                       Vector2 pixelClick = Mouse.GetState().Position.ToVector2();
+                       Vector2 pixelPlayer = Camera.Position2Pixels(_position);
+                       Vector2 delta = pixelClick - pixelPlayer;
+                       delta.Normalize();
+                       delta.Y = -delta.Y; // Invert for "virtual" world
+                       Vector2 dir = 5f * delta;
 
-                   Bullet bullet = new Bullet(_teleport, _position,
-                       dir, game1.Services.GetService<World>());
-                   _objects.Add(bullet);
+                       Bullet bullet = new Bullet(_bullet, _position,
+                           dir, game1.Services.GetService<World>());
+                       _objects.Add(bullet);
+                       crystals--;
+                   }
                }
                );
+            KeyboardManager.Register(
+                Keys.R,
+                KeysState.Down,
+                () => { 
+                    Body.ApplyForce(new Vector2(0, 30f));
+                    _status = Status.Cast;
+                });
+            KeyboardManager.Register(
+               Keys.R,
+               KeysState.GoingUp,
+               () => {
+                   _status = Status.Idle;
+               });
 
-
-
+            Aura = new AnimatedSprite("aura", _position, _size, 32f, Enumerable.Range(0,31).Select(n => game1.Content.Load<Texture2D>($"aura/aura{n}")).ToArray());
         }
 
         public override void Update(GameTime gameTime)
         {
-            foreach (ITempObject obj in _objects)
-                obj.Update(gameTime);
+            foreach (ITempObject obj in _objects) obj.Update(gameTime);
+            Aura._position = Body.Position;
+            if (_status == Status.Cast)
+            {
+                _textures = _castFrames;
+                _currentTexture = 0;
+                Aura.Update(gameTime);
+            }
 
             if (_status == Status.Idle && Body.LinearVelocity.LengthSquared() > 0.001f)
             {
@@ -164,12 +195,16 @@ namespace Tower2
                 .ToArray()
             );
             _objects = _objects.Where(b => !b.IsDead()).ToList();
+
         }
 
         public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             base.Draw(spriteBatch, gameTime);
-            foreach (ITempObject obj in _objects) obj.Draw(spriteBatch, gameTime);
+            foreach (ITempObject obj in _objects) 
+                obj.Draw(spriteBatch, gameTime);
+            if (_status == Status.Cast) Aura.Draw(spriteBatch, gameTime);
+
         }
     }
 }

@@ -10,7 +10,7 @@ namespace IPCA.MonoGame
     public class GameObject
     {
         protected float _rotation;
-        protected Vector2 _position;
+        public Vector2 _position;
         protected string _name;
         public Vector2 Position => _position;
         public Vector2 _size;

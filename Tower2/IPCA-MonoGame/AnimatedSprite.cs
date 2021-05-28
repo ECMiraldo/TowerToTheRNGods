@@ -9,7 +9,9 @@ namespace IPCA.MonoGame
     {
         protected List<Texture2D> _textures;
         protected int _currentTexture = 0;
-        
+        private bool _cycled = false;
+
+
         private int _fps = 10;
         private double _delay => 1.0f / _fps;
         private double _timer = 0f;
@@ -22,6 +24,7 @@ namespace IPCA.MonoGame
 
         public override void Update(GameTime gameTime)
         {
+
             _timer += gameTime.ElapsedGameTime.TotalSeconds;
             if (_timer > _delay)
             {
@@ -29,6 +32,7 @@ namespace IPCA.MonoGame
                 _timer = 0.0;
                 _texture = _textures[_currentTexture];
             }
+            
             base.Update(gameTime);
         }
     }
