@@ -47,10 +47,11 @@ namespace Tower2
                 base("spikes big", game.Content.Load<Texture2D>("spikes big"), position, new Vector2(5f, 0.25f), 128f)
         {
             this.game = game;
-            //pos min = 0.5 + size/2 = 0.5 + 2.5 = 3
+            //pos min = 0.5 + size / 2 = 0.5 + 2.5 = 3
             //pos max = 9.5 - 2.5 = 7
-            //AddRectangleBody(this.game.Services.GetService<World>(), _size.X - 0.05f, _size.Y -0.1f );
-            //Body.BodyType = BodyType.Static;
+            AddRectangleBody(this.game.Services.GetService<World>(), _size.X ,_size.Y * 0.001f);
+            Body.BodyType = BodyType.Static;
+
         }
     }
 
@@ -64,8 +65,8 @@ namespace Tower2
             this.game = game;
             //pos min = 0.5 + size / 2 = 0.5 + 1.25 = 1.75
             //pos max = 9.5 - 1.25 = 8.25
-            //AddRectangleBody(this.game.Services.GetService<World>(), _size.X - 0.05f, _size.Y - 0.1f);
-            //Body.BodyType = BodyType.Static;
+            AddRectangleBody(this.game.Services.GetService<World>(), _size.X , _size.Y * 0.001f);
+            Body.BodyType = BodyType.Static;
         }
     }
 }

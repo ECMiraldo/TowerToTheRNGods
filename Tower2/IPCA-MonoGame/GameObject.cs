@@ -97,6 +97,11 @@ namespace IPCA.MonoGame
             Body.Restitution = 0.1f;
             
             Body.FixedRotation = true;
+
+            if (this.Name == "spikes big" || this.Name == "spikes small")
+            {
+                Body.Position = new Vector2(Body.Position.X, Body.Position.Y + 0.2f);
+            }
         }
         
 

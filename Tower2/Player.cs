@@ -19,9 +19,10 @@ namespace Tower2
         private Status _status = Status.Idle;
 
         public static Player _instance;
-        private int _lives;
-        private int _coins;
-        private int crystals;
+        public int _hp = 100;
+        public int _mana = 100;
+        public int _coins;
+        public int crystals;
 
 
 
@@ -51,12 +52,24 @@ namespace Tower2
 
 
             crystals = 3;
-            _lives = 3;
             _coins = 0;
 
             AddRectangleBody(
                 _game.Services.GetService<World>(), _size.X*1.6f, _size.Y*2.4f //Some magic numbers cause collider was offset
             ) ; // kinematic is false by default
+
+            Fixture top = FixtureFactory.AttachRectangle(
+                _size.X, _size.Y * 0.05f,
+                1, new Vector2(0, +_size.Y + 0.1f),
+                Body);
+            top.IsSensor = true;
+            top.OnCollision = (a, b, contact) =>
+            {
+                if (b.GameObject().Name == "spikes big" || b.GameObject().Name == "spikes small") {
+                    _hp = _hp - 10;
+                }
+            };
+
             Fixture Bottom = FixtureFactory.AttachRectangle(
                 _size.X, _size.Y * 0.05f,
                 1, new Vector2(0, -_size.Y -0.1f),
