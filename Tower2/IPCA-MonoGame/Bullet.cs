@@ -7,7 +7,7 @@ using Tower2;
 
 namespace IPCA.MonoGame
 {
-    public class Bullet : GameObject
+    public class Bullet : GameObject, ITempObject
     {
         private Texture2D _texture;
         private Vector2 _directon;
@@ -16,10 +16,11 @@ namespace IPCA.MonoGame
         private Vector2 _origin; // starting Point, to compute current distance
         private Vector2 _anchor;
         private bool _collided = false;
+        public bool Collided => _collided;
+        public bool IsDead() => _collided || 
+                              (_origin - _position).LengthSquared() > _maxDistance * _maxDistance;
+        public Vector2 ImpactPos;
 
-        public bool IsDead => _collided || 
-                              (_origin - _position).LengthSquared() > _maxDistance * _maxDistance; 
-        
         public Bullet(
             Texture2D texture, Vector2 startingPos, Vector2 direction,
             World world

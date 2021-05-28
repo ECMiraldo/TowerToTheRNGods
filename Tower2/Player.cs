@@ -32,7 +32,7 @@ namespace Tower2
         private List<Texture2D> _idleFrames;
         private List<Texture2D> _walkFrames;
         private Texture2D _teleport;
-        private List<Bullet> _bullets;
+        private List<ITempObject> _objects;
 
         public Player(Game1 game1) : base("idle", new Vector2(5f, 10f), new Vector2(0.5f, 0.5f), 128f, Enumerable.Range(0, 9).Select(n => game1.Content.Load<Texture2D>($"playersprites/Stand/{n}")).ToArray())
         {
@@ -43,7 +43,7 @@ namespace Tower2
 
             _game = game1;
             _teleport = _game.Content.Load<Texture2D>("fireball");
-            _bullets = new List<Bullet>();
+            _objects = new List<ITempObject>();
 
             AddRectangleBody(
                 _game.Services.GetService<World>(), _size.X*1.6f, _size.Y*2.4f //Some magic numbers cause collider was offset
@@ -56,7 +56,7 @@ namespace Tower2
 
             Bottom.OnCollision = (a, b, contact) =>
             {
-                if (b.GameObject().Name != "bullet")
+                if (b.GameObject().Name == "platform")
                     _isGrounded = true;
             };
             Bottom.OnSeparation = (a, b, contact) => _isGrounded = false;
@@ -93,16 +93,16 @@ namespace Tower2
                 {
                     if (_isGrounded)
                     {
-                        Body.ApplyForce(new Vector2(0, 375f));
+                        Body.ApplyForce(new Vector2(0, 400f));
                         candoublejump = true;
                     }
                     else if (candoublejump)
                     {
                         candoublejump = false;
-                        Body.ApplyForce(new Vector2(0, 250f));
+                        Body.ApplyForce(new Vector2(0, 275f));
                     }
-                    else if (canwalljump && KeyboardManager.IsKeyDown(Keys.A)) Body.ApplyForce(new Vector2(-250f, 350f));
-                    else  if (canwalljump && KeyboardManager.IsKeyDown(Keys.D)) Body.ApplyForce(new Vector2(250f, 350f));
+                    else if (canwalljump && KeyboardManager.IsKeyDown(Keys.A)) Body.ApplyForce(new Vector2(-200f, 400f));
+                    else  if (canwalljump && KeyboardManager.IsKeyDown(Keys.D)) Body.ApplyForce(new Vector2(200f, 400f));
                 });
             KeyboardManager.Register(
                 Keys.A,
@@ -118,15 +118,15 @@ namespace Tower2
                () =>
                {
                    Vector2 pixelClick = Mouse.GetState().Position.ToVector2();
-                   Vector2 pixelDyno = Camera.Position2Pixels(_position);
-                   Vector2 delta = pixelClick - pixelDyno;
+                   Vector2 pixelPlayer = Camera.Position2Pixels(_position);
+                   Vector2 delta = pixelClick - pixelPlayer;
                    delta.Normalize();
                    delta.Y = -delta.Y; // Invert for "virtual" world
                     Vector2 dir = 5f * delta;
 
                    Bullet bullet = new Bullet(_teleport, _position,
                        dir, game1.Services.GetService<World>());
-                   _bullets.Add(bullet);
+                   _objects.Add(bullet);
                }
                );
 
@@ -136,6 +136,9 @@ namespace Tower2
 
         public override void Update(GameTime gameTime)
         {
+            foreach (ITempObject obj in _objects)
+                obj.Update(gameTime);
+
             if (_status == Status.Idle && Body.LinearVelocity.LengthSquared() > 0.001f)
             {
                 _status = Status.Walk;
@@ -154,14 +157,19 @@ namespace Tower2
             else if (Body.LinearVelocity.X > 0f) _direction = Direction.Right;
 
             base.Update(gameTime);
-            _bullets = _bullets.Where(b => !b.IsDead).ToList();
+            _objects.AddRange(_objects
+                .Where(obj => obj is Bullet)
+                .Cast<Bullet>()
+                .Where(b => b.Collided)
+                .ToArray()
+            );
+            _objects = _objects.Where(b => !b.IsDead()).ToList();
         }
 
         public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             base.Draw(spriteBatch, gameTime);
-            foreach (Bullet bullet in _bullets)
-                bullet.Draw(spriteBatch, gameTime);
+            foreach (ITempObject obj in _objects) obj.Draw(spriteBatch, gameTime);
         }
     }
 }

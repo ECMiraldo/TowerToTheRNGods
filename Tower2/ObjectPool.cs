@@ -64,7 +64,7 @@ namespace Tower2
                         float posY = _height - 0.5f;
                         SpikesSmall sB = new SpikesSmall(game, new Vector2(Xpos, posY));
                         _pool.Add(sB);
-                        Fixture spikes = FixtureFactory.AttachRectangle(plat._size.X, plat._size.Y * 0.2f, 1, new Vector2(0, -0.2f), plat.Body);
+                        Fixture spikes = FixtureFactory.AttachRectangle(plat._size.X, plat._size.Y * 0.2f, 1, new Vector2(0, -0.4f), plat.Body);
                     }
                 }
             }
@@ -128,7 +128,7 @@ namespace Tower2
                         float posY = _height - 0.5f;
                         SpikesSmall sB = new SpikesSmall(game, new Vector2(Xpos, posY));
                         _pool.Add(sB);
-                        Fixture spikes = FixtureFactory.AttachRectangle(plat._size.X, plat._size.Y * 0.2f, 1, new Vector2(0, -0.2f), plat.Body);
+                        Fixture spikes = FixtureFactory.AttachRectangle(plat._size.X, plat._size.Y * 0.2f, 1, new Vector2(0, -0.4f), plat.Body);
                     }  
                 }
                 _height = _height + 3;
