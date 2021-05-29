@@ -130,16 +130,16 @@ namespace Tower2
                 {
                     if (_isGrounded)
                     {
-                        Body.ApplyForce(new Vector2(0, 400f));
+                        Body.ApplyForce(new Vector2(0, 375f));
                         candoublejump = true;
                     }
                     else if (candoublejump)
                     {
                         candoublejump = false;
-                        Body.ApplyForce(new Vector2(0, 300f));
+                        Body.ApplyForce(new Vector2(0, 275f));
                     }
-                    else if (canwalljump && KeyboardManager.IsKeyDown(Keys.A)) Body.ApplyForce(new Vector2(-100f, 500f));
-                    else  if (canwalljump && KeyboardManager.IsKeyDown(Keys.D)) Body.ApplyForce(new Vector2(100f, 500f));
+                    else if (canwalljump && KeyboardManager.IsKeyDown(Keys.A)) Body.ApplyForce(new Vector2(-80f, 550f));
+                    else  if (canwalljump && KeyboardManager.IsKeyDown(Keys.D)) Body.ApplyForce(new Vector2(80f, 550f));
                 });
             KeyboardManager.Register(
                 Keys.A,
@@ -173,9 +173,12 @@ namespace Tower2
             KeyboardManager.Register(
                 Keys.R,
                 KeysState.Down,
-                () => { 
-                    Body.ApplyForce(new Vector2(0, 30f));
-                    _status = Status.Cast;
+                () => {
+                    if (_mana > 0)
+                    {
+                        Body.ApplyForce(new Vector2(0, 30f));
+                        _status = Status.Cast;
+                    }
                 });
             KeyboardManager.Register(
                Keys.R,
@@ -197,6 +200,10 @@ namespace Tower2
                     _damaged = false;
                     _timer = 0;
                 }
+            }
+            if (_status == Status.Cast)
+            {
+                _mana = _mana - ((int)gameTime.ElapsedGameTime.Ticks / 100000 );
             }
 
             foreach (ITempObject obj in _objects) obj.Update(gameTime);
