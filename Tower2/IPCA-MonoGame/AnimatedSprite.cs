@@ -8,7 +8,9 @@ namespace IPCA.MonoGame
     public class AnimatedSprite : Sprite
     {
         protected List<Texture2D> _textures;
+        public List<Texture2D> Texture => _textures;
         protected int _currentTexture = 0;
+        public int CurrentTexture => _currentTexture;
         private bool _cycled = false;
 
 

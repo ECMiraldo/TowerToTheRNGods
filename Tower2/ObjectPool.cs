@@ -84,9 +84,10 @@ namespace Tower2
         public void Update(GameTime gametime)
         {
             this.SpawnPlatforms(gametime);
-            foreach (NPC p in _porings)
+            for (int i = 0; i < _porings.Count; i++)
             {
-                p.Update(gametime);
+                _porings[i].Update(gametime);
+                if (_porings[i].IsDead && _porings[i].Texture[_porings[i].CurrentTexture] == _porings[i].Texture[_porings[i].Texture.Count-1]) _porings.Remove(_porings[i]);
             }
 
 

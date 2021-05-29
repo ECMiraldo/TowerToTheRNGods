@@ -17,68 +17,44 @@ namespace Tower2
         private Game1 _game;
      
         private List<Texture2D> _idleFrames;
-        private List<Texture2D> _walkFrames;
+        private List<Texture2D> _deadFrames;
         private Vector2 _startingPoint;
+        private bool isDead = false;
+        public bool IsDead => isDead;
 
         public NPC(Game1 game, Vector2 position) : base ("npc", position, new Vector2(1.2f,0.6f), 64f, 
                                         Enumerable.Range(1,4).Select(n => game.Content.Load<Texture2D>($"Poringsprites/Standing/standing{n}")).ToArray())
         {
             _idleFrames = _textures; // loaded by the base construtor
+            _deadFrames = Enumerable.Range(1, 5).Select(n => game.Content.Load<Texture2D>($"Poringsprites/Dying/hurt{n}")).ToList();
             _direction = Direction.Right;
             
             _game = game;
             _startingPoint = position;
-            
-
-            AddRectangleBody(
-                _game.Services.GetService<World>(),
-                width: _size.X / 2f
-            ); // kinematic is false by default
+           
+            AddRectangleBody(_game.Services.GetService<World>(),width: _size.X / 2f); // kinematic is false by default
             Body.LinearVelocity = -Vector2.UnitX;
+
             Fixture sensor = FixtureFactory.AttachRectangle(_size.X /2, _size.Y,1, new Vector2(0,0),Body);
             sensor.IsSensor = true;
             Body.Friction = 0f;
             
             sensor.OnCollision = (a, b, contact) =>
             {
-                if (b.GameObject().Name == "player") Player._instance._hp = Player._instance._hp - 20;
+                if (b.GameObject().Name == "bullet") isDead = true;
             };
             sensor.OnSeparation = (a, b, contact) =>
             {
 
             };
 
-            //Fixture BotLeft = FixtureFactory.AttachRectangle(
-            //    _size.X * 0.1f, _size.Y * 0.1f,
-            //    1, new Vector2(-_size.X /2f + 0.1f, -_size.Y /2f - 0.01f ),
-            //    Body);
-            //BotLeft.IsSensor = true;
+            Fixture top = FixtureFactory.AttachRectangle(_size.X /2f, _size.Y * 0.1f, 1, new Vector2(0, _size.Y / 2f - 0.01f),Body);
+            top.IsSensor = true;
 
-            //BotLeft.OnCollision = (a, b, contact) =>
-            //{
-
-            //};
-            //BotLeft.OnSeparation = (a, b, contact) =>
-            //{
-            //    _direction = Direction.Right;
-            //    if (b.GameObject().Name == "platform") _direction = Direction.Right;
-            //};
-
-            //Fixture BotRight = FixtureFactory.AttachRectangle(
-            //    _size.X * 0.1f, _size.Y * 0.1f,
-            //    1, new Vector2(_size.X / 2f - 0.1f, -_size.Y / 2f - 0.01f),
-            //    Body);
-            //BotRight.IsSensor = true;
-
-            //BotRight.OnCollision = (a, b, contact) =>
-            //{
-
-            //};
-            //BotRight.OnSeparation = (a, b, contact) =>
-            //{
-            //    if (b.GameObject().Name == "platform") _direction = Direction.Left;
-            //};
-
+            top.OnCollision = (a, b, contact) =>
+            {
+                if (b.GameObject().Name == "player") isDead = true;
+            };
 
         }
 
@@ -104,6 +80,11 @@ namespace Tower2
                 }
             }
             if (Body.LinearVelocity.LengthSquared() < 1) Body.LinearVelocity = Vector2.UnitX;
+            if (isDead)
+            {
+                Body.ResetDynamics();
+                _textures = _deadFrames;
+            }
             base.Update(gameTime);
         }
 
