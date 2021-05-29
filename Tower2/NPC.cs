@@ -82,6 +82,7 @@ namespace Tower2
             if (Body.LinearVelocity.LengthSquared() < 1) Body.LinearVelocity = Vector2.UnitX;
             if (isDead)
             {
+                Body.Enabled = false;
                 Body.ResetDynamics();
                 _textures = _deadFrames;
             }

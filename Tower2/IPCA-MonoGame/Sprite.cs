@@ -10,13 +10,13 @@ namespace IPCA.MonoGame
     // represents a game object that has a texture
     public class Sprite : GameObject
     {
-        protected enum Direction
+        public enum Direction
         {
             Left,
             Right,
         }
         protected Direction _direction = Direction.Right;
-
+        public Direction direction => _direction;
         //As we are not using Hyperlap, we need sizemult in order to correctly scale sprites in relation to one another;
         //128f = Player/platform
         //16f = Brick;

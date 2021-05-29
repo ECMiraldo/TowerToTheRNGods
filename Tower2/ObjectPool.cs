@@ -87,7 +87,11 @@ namespace Tower2
             for (int i = 0; i < _porings.Count; i++)
             {
                 _porings[i].Update(gametime);
-                if (_porings[i].IsDead && _porings[i].Texture[_porings[i].CurrentTexture] == _porings[i].Texture[_porings[i].Texture.Count-1]) _porings.Remove(_porings[i]);
+                if (_porings[i].IsDead && 
+                    _porings[i].Texture[_porings[i].CurrentTexture] == _porings[i].Texture[_porings[i].Texture.Count - 1])
+                {
+                    _porings.Remove(_porings[i]);
+                }
             }
 
 

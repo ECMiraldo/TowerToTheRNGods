@@ -24,7 +24,8 @@ namespace Tower2
         public int _coins;
         public int crystals;
 
-
+        private double _timer = 0;
+        public bool _damaged = false;
 
         private Game1 _game;
         private bool _isGrounded = false;
@@ -66,7 +67,11 @@ namespace Tower2
             top.OnCollision = (a, b, contact) =>
             {
                 if (b.GameObject().Name == "spikes big" || b.GameObject().Name == "spikes small") {
-                    _hp = _hp - 10;
+                    if (!_damaged)
+                    {
+                        _damaged = true;
+                        _hp = _hp - 10;
+                    }
                 }
             };
 
@@ -78,8 +83,8 @@ namespace Tower2
 
             Bottom.OnCollision = (a, b, contact) =>
             {
-                if (b.GameObject().Name == "platform")
-                    _isGrounded = true;
+                if (b.GameObject().Name == "platform") _isGrounded = true;
+                if (b.GameObject().Name == "npc") Body.ApplyForce(new Vector2(0, 150f));
             };
             Bottom.OnSeparation = (a, b, contact) => _isGrounded = false;
 
@@ -174,6 +179,16 @@ namespace Tower2
 
         public override void Update(GameTime gameTime)
         {
+            if (_damaged)
+            {
+                _timer = _timer + gameTime.ElapsedGameTime.TotalSeconds;
+                if (_timer > 2)
+                {
+                    _damaged = false;
+                    _timer = 0;
+                }
+            }
+
             foreach (ITempObject obj in _objects) obj.Update(gameTime);
             Aura._position = Body.Position;
             if (_status == Status.Cast)
@@ -208,14 +223,15 @@ namespace Tower2
                 .ToArray()
             );
             _objects = _objects.Where(b => !b.IsDead()).ToList();
+            
+            
 
         }
 
         public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             base.Draw(spriteBatch, gameTime);
-            foreach (ITempObject obj in _objects) 
-                obj.Draw(spriteBatch, gameTime);
+            foreach (ITempObject obj in _objects) obj.Draw(spriteBatch, gameTime);
             if (_status == Status.Cast) Aura.Draw(spriteBatch, gameTime);
 
         }
