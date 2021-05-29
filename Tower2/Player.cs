@@ -98,6 +98,11 @@ namespace Tower2
             left.OnCollision = (a, b, contact) =>
             {
                 if (b.GameObject().Name == "brick") canwalljump = true;
+                if (b.GameObject().Name == "npc" &&  !_damaged)
+                {
+                    _hp = _hp - 30;
+                    _damaged = true;
+                }
             };
             left.OnSeparation = (a, b, contact) => canwalljump = false;
 
@@ -110,6 +115,11 @@ namespace Tower2
             right.OnCollision = (a, b, contact) =>
             {
                 if (b.GameObject().Name == "brick") canwalljump = true;
+                if (b.GameObject().Name == "npc" && !_damaged)
+                {
+                    _hp = _hp - 30;
+                    _damaged = true;
+                }
             };
             right.OnSeparation = (a, b, contact) => canwalljump = false;
 
