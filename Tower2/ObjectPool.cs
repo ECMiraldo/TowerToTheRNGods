@@ -23,6 +23,7 @@ namespace Tower2
         public static ObjectPool _instance;
         private Game1 game;
         private List<GameObject> _pool;
+        private List<NPC> _porings;
         private Random rng;
         private int _random;
         private float _height;
@@ -32,6 +33,7 @@ namespace Tower2
             this.game = game;
             _instance = this;
             _pool = new List<GameObject>();
+            _porings = new List<NPC>();
             rng = new Random();
 
             //Systema para gerar uma seed random no começo do jogo
@@ -52,8 +54,16 @@ namespace Tower2
                         _pool.Add(sB);
                         Fixture spikes = FixtureFactory.AttachRectangle(sB._size.X, sB._size.Y * 0.1f, 1, new Vector2(0, 0.15f), sB.Body);
                     }
+                    _random = rng.Next(0, 10);
+                    if (_random >= 5)  // Spawn poring
+                    {
+                        float posY = _height + 0.5f;
+                        NPC npc = new NPC(game, new Vector2(Xpos, posY));
+                        _porings.Add(npc);
+                    }
                 }
-                else { //platform small
+                else
+                { //platform small
                     float Xpos = rng.Next(3, 7);
                     PlatformSmall plat = new PlatformSmall(game, new Vector2(Xpos, _height));
                     Body aux = plat.Body;
@@ -74,7 +84,10 @@ namespace Tower2
         public void Update(GameTime gametime)
         {
             this.SpawnPlatforms(gametime);
-
+            foreach (NPC p in _porings)
+            {
+                p.Update(gametime);
+            }
 
 
 
@@ -115,6 +128,12 @@ namespace Tower2
                         _pool.Add(sB);
                         Fixture spikes = FixtureFactory.AttachRectangle(sB._size.X, sB._size.Y * 0.1f, 1, new Vector2(0, 0.15f), sB.Body);
                     }
+                    if (_random >= 5)  // Spawn poring
+                    {
+                        float posY = _height + 0.5f;
+                        NPC npc = new NPC(game, new Vector2(Xpos, posY));
+                        _porings.Add(npc);
+                    }
                 }
                 else
                 { //platform small
@@ -142,6 +161,11 @@ namespace Tower2
             foreach (GameObject s in _pool)
             {
                 s.Draw(spriteBatch, gameTime);
+            }
+
+            foreach (NPC p in _porings)
+            {
+                p.Draw(spriteBatch, gameTime);
             }
         }
     }
