@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace IPCA.MonoGame
 {
@@ -12,7 +13,7 @@ namespace IPCA.MonoGame
         private Vector2 _worldSize;
         private Vector2 _ratio;
         private Vector2 _target;
-
+        private double _speed;
         public static Vector2 WorldSize => _camera._worldSize;
         public static Vector2 WindowSize => _camera._windowSize;
         public static Vector2 Target => _camera._target;
@@ -126,7 +127,8 @@ namespace IPCA.MonoGame
 
         private void _Update(GameTime gametime)
         {
-            _target = _target + new Vector2(0, 0.01f);
+            _speed += gametime.ElapsedGameTime.TotalSeconds/5000;
+            _target = _target + new Vector2(0, (float)_speed + 0.01f);
         }
     }
 }

@@ -15,6 +15,7 @@ namespace Tower2
         private SpriteBatch _spriteBatch;
         public World _world;
         public float playersizemult = 1024f; //useful for player constructor in order to softcode sprite size
+        double _timer = 0;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -54,12 +55,16 @@ namespace Tower2
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
-            _world.Step((float)gameTime.ElapsedGameTime.TotalMilliseconds * 0.001f);
             Player._instance.Update(gameTime);
-            Tower._instance.Update(gameTime);
-            Camera.Update(gameTime);
+            _world.Step((float)gameTime.ElapsedGameTime.TotalMilliseconds * 0.001f);
+            Tower._instance.Update(gameTime);   
             ObjectPool._instance.Update(gameTime);
             Ui._instance.Update(gameTime);
+            _timer = _timer + gameTime.ElapsedGameTime.TotalSeconds;
+            if (_timer > 5)
+            {
+                Camera.Update(gameTime);
+            }
             base.Update(gameTime);
         }
 

@@ -37,7 +37,7 @@ namespace Tower2
             rng = new Random();
 
             //Systema para gerar uma seed random no começo do jogo
-            for (_height = 2; _height <= 21; _height = _height + 3)
+            for (_height = 3; _height <= 21; _height = _height + 3)
             {
                 _random = rng.Next(0, 10);
                 if (_random >= 5)  //platform big
