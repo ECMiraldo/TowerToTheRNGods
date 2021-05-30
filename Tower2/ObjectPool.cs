@@ -27,6 +27,7 @@ namespace Tower2
         private Random rng;
         private int _random;
         private float _height;
+        private float heightaux;
 
         public ObjectPool(Game1 game)
         {
@@ -78,12 +79,19 @@ namespace Tower2
                     }
                 }
             }
+            heightaux = _height + 0.25f;
+            
         }
 
         
         public void Update(GameTime gametime)
         {
             this.SpawnPlatforms(gametime);
+            this.SpawnObjects(gametime);
+            foreach (GameObject s in _pool)
+            {
+                s.Update(gametime);
+            }
             for (int i = 0; i < _porings.Count; i++)
             {
                 _porings[i].Update(gametime);
@@ -103,19 +111,8 @@ namespace Tower2
 
         }
 
-
-
-        public float GetRandomX()
-        {
-            float aux = rng.Next(0, 10);
-            if (aux > 9.5f) aux = aux - 0.5f;
-            if (aux < 0.5f) aux = aux + 0.5f;
-            return aux;
-        }
-
         public void SpawnPlatforms(GameTime gametime)
         {
-            
             while(_height < Camera.Target.Y + 11f)
             {
                 _random = rng.Next(0, 10);
@@ -160,7 +157,61 @@ namespace Tower2
 
         }
 
+        public void SpawnObjects(GameTime gametime)
+        {
+            
+            while (heightaux < Camera.Target.Y + 11f)
+            {
+                _random = rng.Next(0, 10);
+                if (_random < 7) //30% chance to not spawn anything;
+                {
+                    float Xpos = rng.Next(0, 10);
 
+                    _random = rng.Next(0, 11);
+                    if (_random > 4) // 60% to spawn something that helps the player
+                    {
+                        _random = rng.Next(0, 21);
+                        switch (_random)
+                        {
+                            case 1:
+                            case 2:
+                            case 3:
+                            case 4:
+                            case 5:
+                            case 6:
+                            case 7:
+                            case 8:
+                                _pool.Add(new Coin(game, new Vector2(Xpos, heightaux)));
+                                break;
+                            case 9:
+                            case 10:
+                            case 11:
+                            case 12:
+                                _pool.Add(new Crystal(game, new Vector2(Xpos, heightaux)));
+                                break;
+                            case 13:
+                            case 14:
+                            case 15:
+                                _pool.Add(new RedHeart(game, new Vector2(Xpos, heightaux)));
+                                break;
+                            case 16:
+                            case 17:
+                            case 18:
+                            case 19:
+                                _pool.Add(new ManaHeart(game, new Vector2(Xpos, heightaux)));
+                                break;
+                            case 20:
+                                _pool.Add(new Hourglass(game, new Vector2(Xpos, heightaux)));
+                                break;
+                        }
+                    }
+
+
+                }
+                heightaux = heightaux + 1;
+            }
+
+        }
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             foreach (GameObject s in _pool)

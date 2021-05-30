@@ -481,6 +481,18 @@
 /processorParam:TextureFormat=Color
 /build:Coin/Coin 6.png
 
+#begin Coin/Coin 7.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Coin/Coin 7.png
+
 #begin Coin/Coin 8.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -493,7 +505,7 @@
 /processorParam:TextureFormat=Color
 /build:Coin/Coin 8.png
 
-#begin Coin/Coint 7.png
+#begin crystal/crystal 1.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -503,19 +515,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Coin/Coint 7.png
-
-#begin crystal/Crystal 1.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:crystal/Crystal 1.png
+/build:crystal/crystal 1.png
 
 #begin crystal/crystal 2.png
 /importer:TextureImporter
@@ -1500,6 +1500,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Poringsprites/Walking/walking8.png
+
+#begin Sand clock png.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sand clock png.png
 
 #begin spikes big.png
 /importer:TextureImporter

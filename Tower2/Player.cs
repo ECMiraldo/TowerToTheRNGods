@@ -136,7 +136,7 @@ namespace Tower2
                     else if (candoublejump)
                     {
                         candoublejump = false;
-                        Body.ApplyForce(new Vector2(0, 275f));
+                        Body.ApplyForce(new Vector2(0, 285f));
                     }
                     else if (canwalljump && KeyboardManager.IsKeyDown(Keys.A)) Body.ApplyForce(new Vector2(-80f, 550f));
                     else  if (canwalljump && KeyboardManager.IsKeyDown(Keys.D)) Body.ApplyForce(new Vector2(80f, 550f));

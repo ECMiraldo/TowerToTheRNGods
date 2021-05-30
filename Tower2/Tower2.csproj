@@ -149,10 +149,10 @@
     <None Update="Content\Coin\Coin 8.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Content\Coin\Coint 7.png">
+    <None Update="Content\Coin\Coin 7.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Content\crystal\Crystal 1.png">
+    <None Update="Content\crystal\crystal 1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Content\crystal\crystal 2.png">
@@ -348,6 +348,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Content\playersprites\Walk\9.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Content\Sand clock png.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Content\spikes big.png">
