@@ -13,7 +13,7 @@ namespace IPCA.MonoGame
         private Vector2 _worldSize;
         private Vector2 _ratio;
         private Vector2 _target;
-        private double _speed;
+        public double _speed;
         public static Vector2 WorldSize => _camera._worldSize;
         public static Vector2 WindowSize => _camera._windowSize;
         public static Vector2 Target => _camera._target;
@@ -119,7 +119,10 @@ namespace IPCA.MonoGame
             return len * _ratio;
         }
 
-
+        public static void lowerSpeed()
+        {
+            Camera._camera._speed = 0.5 * Camera._camera._speed;
+        }
         public static void Update(GameTime gametime)
         {
             _camera._Update(gametime);

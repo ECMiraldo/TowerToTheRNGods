@@ -1,8 +1,12 @@
 using Genbox.VelcroPhysics.Collision.Shapes;
 using Genbox.VelcroPhysics.Dynamics;
 using Genbox.VelcroPhysics.Factories;
+using Genbox.VelcroPhysics.Shared;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Linq;
+using System.Collections.Generic;
+
 
 namespace IPCA.MonoGame
 {
@@ -103,7 +107,5 @@ namespace IPCA.MonoGame
                 Body.Position = new Vector2(Body.Position.X, Body.Position.Y + 0.2f);
             }
         }
-        
-
     }
 }

@@ -13,12 +13,14 @@ namespace Tower2
     public class Coin : AnimatedSprite
     {
         private Game1 game;
+        private BreakableBody body;
         public Coin(Game1 game, Vector2 position, bool offset = false) :
             base("coin", position, new Vector2(0.25f, 0.25f), 16f, Enumerable.Range(1, 8).Select(n => game.Content.Load<Texture2D>($"Coin/Coin {n}")).ToArray())
         {
             this.game = game;
             AddRectangleBody(this.game.Services.GetService<World>(), _size.X, _size.Y);
             Body.BodyType = BodyType.Kinematic;
+            Body.IsSensor = true;
         }
 
     }
@@ -27,11 +29,12 @@ namespace Tower2
     {
         private Game1 game;
         public Crystal(Game1 game, Vector2 position) :
-            base("coin", position, new Vector2(0.25f, 0.25f), 16f, Enumerable.Range(1, 8).Select(n => game.Content.Load<Texture2D>($"crystal/crystal {n}")).ToArray())
+            base("crystal", position, new Vector2(0.25f, 0.25f), 16f, Enumerable.Range(1, 8).Select(n => game.Content.Load<Texture2D>($"crystal/crystal {n}")).ToArray())
         {
             this.game = game;
             AddRectangleBody(this.game.Services.GetService<World>(), _size.X, _size.Y);
             Body.BodyType = BodyType.Kinematic;
+            Body.IsSensor = true;
         }
     }
 
@@ -50,6 +53,7 @@ namespace Tower2
             this.game = game;
             AddRectangleBody(this.game.Services.GetService<World>(), _size.X, _size.Y);
             Body.BodyType = BodyType.Kinematic;
+            Body.IsSensor = true;
 
         }
 
@@ -65,6 +69,7 @@ namespace Tower2
             this.game = game;
             AddRectangleBody(this.game.Services.GetService<World>(), _size.X, _size.Y);
             Body.BodyType = BodyType.Kinematic;
+            Body.IsSensor = true;
         }
     }
 
@@ -78,6 +83,7 @@ namespace Tower2
             this.game = game;
             AddRectangleBody(this.game.Services.GetService<World>(), _size.X, _size.Y);
             Body.BodyType = BodyType.Kinematic;
+            Body.IsSensor = true;
         }
 
     }

@@ -23,9 +23,12 @@ namespace Tower2
         public int _mana = 100;
         public int _coins;
         public int crystals;
+        public bool gottenObject = false;
+        private double _timer2 = 0;
 
         private double _timer = 0;
         public bool _damaged = false;
+        
 
         private Game1 _game;
         private bool _isGrounded = false;
@@ -201,6 +204,15 @@ namespace Tower2
                     _timer = 0;
                 }
             }
+            if (gottenObject)
+            {
+                _timer2 = _timer2 + gameTime.ElapsedGameTime.TotalSeconds;
+                if (_timer2 > 0.2)
+                {
+                    gottenObject = false;
+                    _timer2 = 0;
+                }
+            }
             if (_status == Status.Cast)
             {
                 _mana = _mana - ((int)gameTime.ElapsedGameTime.Ticks / 100000 );
@@ -252,5 +264,28 @@ namespace Tower2
             if (_status == Status.Cast) Aura.Draw(spriteBatch, gameTime);
 
         }
+
+
+
+
+
+        public static void Getmana()
+        {
+            if (Player._instance._mana != 100)
+            {
+                if (Player._instance._mana <= 70) Player._instance._mana += 30;
+                else Player._instance._mana = 100;
+            }
+        }
+        public static void GetHP()
+        {
+            if (Player._instance._hp != 100)
+            {
+                if (Player._instance._hp <= 70) Player._instance._hp += 30;
+                else Player._instance._hp = 100;
+            }
+        }
+        public static void GetBullet() => Player._instance.crystals++;
+        public static void GetCoin() => Player._instance._coins++;
     }
 }

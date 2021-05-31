@@ -88,11 +88,8 @@ namespace Tower2
         {
             this.SpawnPlatforms(gametime);
             this.SpawnObjects(gametime);
-            foreach (GameObject s in _pool)
-            {
-                s.Update(gametime);
-            }
-            for (int i = 0; i < _porings.Count; i++)
+            
+            for (int i = 0; i < _porings.Count; i++) //poring die animation
             {
                 _porings[i].Update(gametime);
                 if (_porings[i].IsDead && 
@@ -100,6 +97,41 @@ namespace Tower2
                 {
                     _porings.Remove(_porings[i]);
                 }
+            }
+            Player._instance.Body.OnCollision = (a, b, contact) =>
+            {
+                if (_pool.Contains(b.GameObject()))
+                {
+                    if (b.GameObject().Name == "coin")
+                    {
+                        _pool.Remove(b.GameObject());
+                        Player.GetCoin();
+                    }
+                    if (b.GameObject().Name == "crystal")
+                    {
+                        _pool.Remove(b.GameObject());
+                        Player.GetBullet();
+                    }
+                    if (b.GameObject().Name == "hourglass")
+                    {
+                        _pool.Remove(b.GameObject());
+                        Camera.lowerSpeed();
+                    }
+                    if (b.GameObject().Name == "redheart")
+                    {
+                        _pool.Remove(b.GameObject());
+                        Player.GetHP();  
+                    }
+                    if (b.GameObject().Name == "manaheart")
+                    {
+                        _pool.Remove(b.GameObject());
+                        Player.Getmana();
+                    }
+                }
+                };
+            foreach (GameObject s in _pool)
+            {
+                s.Update(gametime);
             }
 
 

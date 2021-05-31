@@ -34,7 +34,6 @@ namespace Tower2
            
             AddRectangleBody(_game.Services.GetService<World>(),width: _size.X / 2f); // kinematic is false by default
             Body.LinearVelocity = -Vector2.UnitX;
-
             Fixture sensor = FixtureFactory.AttachRectangle(_size.X /2, _size.Y,1, new Vector2(0,0),Body);
             sensor.IsSensor = true;
             Body.Friction = 0f;
@@ -47,7 +46,10 @@ namespace Tower2
             {
 
             };
-
+            Body.OnCollision = (a, b, contact) =>
+            {
+                if (b.GameObject().Body.BodyType == BodyType.Kinematic) ;
+            };
             Fixture top = FixtureFactory.AttachRectangle(_size.X /3f, _size.Y * 0.1f, 1, new Vector2(0, _size.Y / 2f - 0.01f),Body);
             top.IsSensor = true;
 
