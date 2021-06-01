@@ -204,12 +204,12 @@ namespace Tower2
             while (heightaux < Camera.Target.Y + 11f)
             {
                 _random = rng.Next(0, 10);
-                if (_random < 7) //30% chance to not spawn anything;
+                if (_random < 8) //20% chance to not spawn anything;
                 {
                     float Xpos = rng.Next(0, 10);
 
                     _random = rng.Next(0, 11);
-                    if (_random > 4) // 60% to spawn something that helps the player
+                    if (_random > 3) // 70% to spawn something that helps the player
                     {
                         _random = rng.Next(0, 21);
                         switch (_random)
@@ -249,7 +249,7 @@ namespace Tower2
 
 
                 }
-                heightaux = heightaux + 1;
+                heightaux = heightaux + 3;
             }
 
         }
