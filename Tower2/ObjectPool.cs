@@ -23,6 +23,7 @@ namespace Tower2
         public static ObjectPool _instance;
         private Game1 game;
         private List<GameObject> _pool;
+        private List<GameObject> _platforms;
         private List<NPC> _porings;
         private Random rng;
         private int _random;
@@ -34,6 +35,7 @@ namespace Tower2
             this.game = game;
             _instance = this;
             _pool = new List<GameObject>();
+            _platforms = new List<GameObject>();
             _porings = new List<NPC>();
             rng = new Random();
 
@@ -46,13 +48,13 @@ namespace Tower2
                     float Xpos = rng.Next(3, 7);
                     PlatformBig plat = new PlatformBig(game, new Vector2(Xpos, _height));
                     Body aux = plat.Body;
-                    _pool.Add(plat);
+                    _platforms.Add(plat);
                     _random = rng.Next(0, 10);
                     if (_random >= 5)  // Spawn spikes
                     {
                         float posY = _height - 0.5f;
                         SpikesBig sB = new SpikesBig(game, new Vector2(Xpos, posY));
-                        _pool.Add(sB);
+                        _platforms.Add(sB);
                         Fixture spikes = FixtureFactory.AttachRectangle(sB._size.X, sB._size.Y * 0.1f, 1, new Vector2(0, 0.15f), sB.Body);
                     }
                     _random = rng.Next(0, 10);
@@ -68,27 +70,27 @@ namespace Tower2
                     float Xpos = rng.Next(3, 7);
                     PlatformSmall plat = new PlatformSmall(game, new Vector2(Xpos, _height));
                     Body aux = plat.Body;
-                    _pool.Add(plat);
+                    _platforms.Add(plat);
                     _random = rng.Next(0, 10);
                     if (_random >= 5)  // Spawn spikes
                     {
                         float posY = _height - 0.5f;
                         SpikesSmall sB = new SpikesSmall(game, new Vector2(Xpos, posY));
-                        _pool.Add(sB);
+                        _platforms.Add(sB);
                         Fixture spikes = FixtureFactory.AttachRectangle(sB._size.X, sB._size.Y * 0.2f, 1, new Vector2(0, 0.15f), sB.Body);
                     }
                 }
             }
-            heightaux = _height + 0.25f;
+            heightaux = 1.5f;
             
         }
 
         
         public void Update(GameTime gametime)
         {
+            
             this.SpawnPlatforms(gametime);
             this.SpawnObjects(gametime);
-            
             for (int i = 0; i < _porings.Count; i++) //poring die animation
             {
                 _porings[i].Update(gametime);
@@ -98,6 +100,7 @@ namespace Tower2
                     _porings.Remove(_porings[i]);
                 }
             }
+
             Player._instance.Body.OnCollision = (a, b, contact) =>
             {
                 if (_pool.Contains(b.GameObject()))
@@ -131,6 +134,13 @@ namespace Tower2
                 };
             foreach (GameObject s in _pool)
             {
+                s.Body.OnCollision = (a, b, contact) =>
+                {
+                    if (b.GameObject().Name == "platform" || b.GameObject().Name == "spikes")
+                    {
+                        s.Body.Position = s.Body.Position + Vector2.UnitY;
+                    }
+                };
                 s.Update(gametime);
             }
 
@@ -153,13 +163,13 @@ namespace Tower2
                     float Xpos = rng.Next(3, 7);
                     PlatformBig plat = new PlatformBig(game, new Vector2(Xpos, _height));
                     Body aux = plat.Body;
-                    _pool.Add(plat);
+                    _platforms.Add(plat);
                     _random = rng.Next(0, 10);
                     if (_random >= 5)  // Spawn spikes
                     {
                         float posY = _height - 0.5f;
                         SpikesBig sB = new SpikesBig(game, new Vector2(Xpos, posY));
-                        _pool.Add(sB);
+                        _platforms.Add(sB);
                         Fixture spikes = FixtureFactory.AttachRectangle(sB._size.X, sB._size.Y * 0.1f, 1, new Vector2(0, 0.15f), sB.Body);
                     }
                     if (_random >= 5)  // Spawn poring
@@ -174,13 +184,13 @@ namespace Tower2
                     float Xpos = rng.Next(3, 7);
                     PlatformSmall plat = new PlatformSmall(game, new Vector2(Xpos, _height));
                     Body aux = plat.Body;
-                    _pool.Add(plat);
+                    _platforms.Add(plat);
                     _random = rng.Next(0, 10);
                     if (_random >= 5)  // Spawn spikes
                     {
                         float posY = _height - 0.5f;
                         SpikesSmall sB = new SpikesSmall(game, new Vector2(Xpos, posY));
-                        _pool.Add(sB);
+                        _platforms.Add(sB);
                         Fixture spikes = FixtureFactory.AttachRectangle(sB._size.X, sB._size.Y * 0.2f, 1, new Vector2(0, 0.15f), sB.Body);
                     }  
                 }
@@ -191,7 +201,6 @@ namespace Tower2
 
         public void SpawnObjects(GameTime gametime)
         {
-            
             while (heightaux < Camera.Target.Y + 11f)
             {
                 _random = rng.Next(0, 10);
@@ -246,15 +255,9 @@ namespace Tower2
         }
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            foreach (GameObject s in _pool)
-            {
-                s.Draw(spriteBatch, gameTime);
-            }
-
-            foreach (NPC p in _porings)
-            {
-                p.Draw(spriteBatch, gameTime);
-            }
+            foreach (GameObject s in _platforms) s.Draw(spriteBatch, gameTime);
+            foreach (GameObject s in _pool) s.Draw(spriteBatch, gameTime);
+            foreach (NPC p in _porings) p.Draw(spriteBatch, gameTime);
         }
     }
 }

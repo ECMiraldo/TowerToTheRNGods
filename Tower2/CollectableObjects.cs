@@ -21,6 +21,13 @@ namespace Tower2
             AddRectangleBody(this.game.Services.GetService<World>(), _size.X, _size.Y);
             Body.BodyType = BodyType.Kinematic;
             Body.IsSensor = true;
+            Body.OnCollision = (a, b, contact) =>
+            {
+                if (b.GameObject().Name == "platform" || b.GameObject().Name == "spikes")
+                {
+                    Body.Position += Vector2.UnitY;
+                }
+            };
         }
 
     }
@@ -35,6 +42,13 @@ namespace Tower2
             AddRectangleBody(this.game.Services.GetService<World>(), _size.X, _size.Y);
             Body.BodyType = BodyType.Kinematic;
             Body.IsSensor = true;
+            Body.OnCollision = (a, b, contact) =>
+            {
+                if (b.GameObject().Name == "platform" || b.GameObject().Name == "spikes")
+                {
+                    Body.Position += Vector2.UnitY;
+                }
+            };
         }
     }
 
@@ -55,6 +69,14 @@ namespace Tower2
             Body.BodyType = BodyType.Kinematic;
             Body.IsSensor = true;
 
+            Body.OnCollision = (a, b, contact) =>
+            {
+                if (b.GameObject().Name == "platform" || b.GameObject().Name == "spikes")
+                {
+                    Body.Position += Vector2.UnitY;
+                }
+            };
+
         }
 
     }
@@ -70,6 +92,14 @@ namespace Tower2
             AddRectangleBody(this.game.Services.GetService<World>(), _size.X, _size.Y);
             Body.BodyType = BodyType.Kinematic;
             Body.IsSensor = true;
+
+            Body.OnCollision = (a, b, contact) =>
+            {
+                if (b.GameObject().Name == "platform" || b.GameObject().Name == "spikes")
+                {
+                    Body.Position += Vector2.UnitY;
+                }
+            };
         }
     }
 
@@ -78,12 +108,20 @@ namespace Tower2
         private Game1 game;
 
         public Hourglass(Game1 game, Vector2 position) :
-            base("hourglass", game.Content.Load<Texture2D>("Sand clock png"), position, new Vector2(0.4f, 0.75f), 762f)
+            base("hourglass", game.Content.Load<Texture2D>("Sand clock png"), position, new Vector2(0.25f, 0.5f), 1024f)
         {
             this.game = game;
             AddRectangleBody(this.game.Services.GetService<World>(), _size.X, _size.Y);
             Body.BodyType = BodyType.Kinematic;
             Body.IsSensor = true;
+
+            Body.OnCollision = (a, b, contact) =>
+            {
+                if (b.GameObject().Name == "platform" || b.GameObject().Name == "spikes")
+                {
+                    Body.Position += Vector2.UnitY;
+                }
+            };
         }
 
     }
