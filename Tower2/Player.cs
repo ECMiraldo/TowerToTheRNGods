@@ -194,7 +194,10 @@ namespace Tower2
         }
 
         public override void Update(GameTime gameTime)
-        {  
+        {
+            if (_hp < 1 || Camera.Target.Y - 11f > Body.Position.Y) _game.playernotdead = false;
+
+
             if (_damaged)
             {
                 _timer = _timer + gameTime.ElapsedGameTime.TotalSeconds;
