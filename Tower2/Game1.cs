@@ -39,6 +39,7 @@ namespace Tower2
             _graphics.PreferredBackBufferWidth = 512;
             _graphics.ApplyChanges();
             Debug.SetGraphicsDevice(GraphicsDevice);
+            playernotdead = true;
             new Camera(GraphicsDevice, 10f, 20f);
             new Player(this);
             new Tower(this);
@@ -79,7 +80,6 @@ namespace Tower2
             }
             else {
                 if (KeyboardManager.IsGoingDown(Keys.Escape)) this.Exit();
-                if (KeyboardManager.IsGoingDown(Keys.Enter)) Initialize();
             }
             base.Update(gameTime);
         }
@@ -99,11 +99,11 @@ namespace Tower2
                 Vector2 scorepos = (Camera.WindowSize - scoresize) / 2f;
                 Vector2 m1size = _font.MeasureString("Game over");
                 Vector2 m1pos = new Vector2((Camera.WindowSize.X - m1size.X) / 2f, scorepos.Y + m1size.Y + 10);
-                Vector2 m2size = _font.MeasureString("Press enter to play again or ESC to exit");
+                Vector2 m2size = _font.MeasureString("Press ESC to exit");
                 Vector2 m2pos = new Vector2((Camera.WindowSize.X - m2size.X) / 2f, scorepos.Y - m2size.Y - 10);
                 _spriteBatch.DrawString(_font, "Your highscore was: " + highscore.ToString(), scorepos, Color.White);
                 _spriteBatch.DrawString(_font, "Game over", m1pos, Color.White);
-                _spriteBatch.DrawString(_font, "Press enter to play again or ESC to exit", m2pos, Color.White);
+                _spriteBatch.DrawString(_font, "Press ESC to exit", m2pos, Color.White);
             }
             _spriteBatch.End();
             base.Draw(gameTime);

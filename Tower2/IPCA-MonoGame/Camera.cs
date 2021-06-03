@@ -24,8 +24,8 @@ namespace IPCA.MonoGame
         
         public Camera(GraphicsDevice graphics, float width = 0f, float height = 0f)
         {
-            if (_camera != null)
-                throw new Exception("Camera constructor called more than once.");
+            //if (_camera != null)
+            //    throw new Exception("Camera constructor called more than once.");
 
             _camera = this; // Save reference to the unique instance in the singleton variable.
             _target = Vector2.Zero;
