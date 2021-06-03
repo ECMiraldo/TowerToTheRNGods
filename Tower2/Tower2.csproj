@@ -263,6 +263,9 @@
     <None Update="Content\HealthHeart.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Content\KG Midnight Memories Regular48.spritefont">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Content\manabar.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

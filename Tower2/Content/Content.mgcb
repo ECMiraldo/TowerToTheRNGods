@@ -949,6 +949,13 @@
 /processorParam:TextureFormat=Color
 /build:HealthHeart.png
 
+#begin KG Midnight Memories Regular48.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:KG Midnight Memories Regular48.spritefont
+
 #begin manabar.png
 /importer:TextureImporter
 /processor:TextureProcessor

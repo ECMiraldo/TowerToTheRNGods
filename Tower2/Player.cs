@@ -56,7 +56,7 @@ namespace Tower2
 
 
             crystals = 3;
-            _coins = 0;
+            _coins = 1;
 
             AddRectangleBody(
                 _game.Services.GetService<World>(), _size.X*1.6f, _size.Y*2.4f //Some magic numbers cause collider was offset

@@ -17,6 +17,8 @@ namespace Tower2
         private Texture2D _mana;
         private List<Sprite> _sprites;
         private Texture2D _crystal;
+        private SpriteFont highscorefont;
+        private double _highscore;
 
         public Ui(Game1 game)
         {
@@ -24,6 +26,8 @@ namespace Tower2
             this.game = game;
             _sprites = new List<Sprite>();
 
+            _highscore = 0;
+            highscorefont = game.Content.Load<SpriteFont>("KG Midnight Memories Regular48");
             _emptybar = game.Content.Load<Texture2D>("Emptybar");
             _health = game.Content.Load<Texture2D>("healthbar");
             _mana = game.Content.Load<Texture2D>("manabar");
@@ -32,7 +36,7 @@ namespace Tower2
 
         public void Update(GameTime gametime)
         {
-            
+            _highscore += ((Camera.Target.Y * gametime.ElapsedGameTime.TotalSeconds) * 0.5) * (Player._instance._coins * Player._instance._coins);
         }
 
         public void Draw(SpriteBatch sp, GameTime gametime)
@@ -53,9 +57,12 @@ namespace Tower2
 
             for (int i = 0; i < Player._instance.crystals; i++)
             {
-                Rectangle bullets = new Rectangle(new Point(10 + (24*i), 900), new Point(24, 32));
+                Rectangle bullets = new Rectangle(new Point(7 + (24*i), 900), new Point(24, 32));
                 sp.Draw(_crystal, bullets, Color.White);
             }
+
+            int score2int = (int)_highscore;
+            sp.DrawString(highscorefont, score2int.ToString(), new Vector2(30, 0), Color.White);
         }
     }
 }
