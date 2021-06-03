@@ -288,7 +288,10 @@ namespace Tower2
                 else Player._instance._hp = 100;
             }
         }
-        public static void GetBullet() => Player._instance.crystals++;
+        public static void GetBullet()
+        {
+            if (Player._instance.crystals < 5) Player._instance.crystals++;
+        }
         public static void GetCoin() => Player._instance._coins++;
     }
 }

@@ -16,7 +16,7 @@ namespace Tower2
         private Texture2D _health;
         private Texture2D _mana;
         private List<Sprite> _sprites;
-
+        private Texture2D _crystal;
 
         public Ui(Game1 game)
         {
@@ -27,7 +27,7 @@ namespace Tower2
             _emptybar = game.Content.Load<Texture2D>("Emptybar");
             _health = game.Content.Load<Texture2D>("healthbar");
             _mana = game.Content.Load<Texture2D>("manabar");
-
+            _crystal = game.Content.Load<Texture2D>("crystal/crystal 1");
         }
 
         public void Update(GameTime gametime)
@@ -50,6 +50,12 @@ namespace Tower2
             sp.Draw(_emptybar, mana, Color.White);
             sp.Draw(_health, hpbar, Color.White);
             sp.Draw(_mana, manabar, Color.White);
+
+            for (int i = 0; i < Player._instance.crystals; i++)
+            {
+                Rectangle bullets = new Rectangle(new Point(10 + (24*i), 900), new Point(24, 32));
+                sp.Draw(_crystal, bullets, Color.White);
+            }
         }
     }
 }
