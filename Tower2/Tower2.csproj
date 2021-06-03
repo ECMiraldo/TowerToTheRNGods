@@ -179,6 +179,9 @@
     <None Update="Content\Emptybar.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Content\EndGame.spritefont">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Content\Explosion\explosion_0.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

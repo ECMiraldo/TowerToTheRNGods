@@ -613,6 +613,13 @@
 /processorParam:TextureFormat=Color
 /build:Emptybar.png
 
+#begin EndGame.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:EndGame.spritefont
+
 #begin Explosion/explosion_0.png
 /importer:TextureImporter
 /processor:TextureProcessor

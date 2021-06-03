@@ -18,7 +18,7 @@ namespace Tower2
         private List<Sprite> _sprites;
         private Texture2D _crystal;
         private SpriteFont highscorefont;
-        private double _highscore;
+        public double _highscore;
 
         public Ui(Game1 game)
         {
