@@ -14,7 +14,7 @@ namespace IPCA.MonoGame
         private bool _cycled = false;
 
 
-        private int _fps = 10;
+        protected int _fps = 10;
         private double _delay => 1.0f / _fps;
         private double _timer = 0f;
         

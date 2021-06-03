@@ -33,8 +33,8 @@ namespace Tower2
         private Game1 _game;
         private bool _isGrounded = false;
         private bool candoublejump = false;
-        private bool canwalljump = false;
-        
+        private bool canwalljumpright = false;
+        private bool canwalljumpleft = false;
 
         private List<Texture2D> _idleFrames;
         private List<Texture2D> _walkFrames;
@@ -100,14 +100,14 @@ namespace Tower2
 
             left.OnCollision = (a, b, contact) =>
             {
-                if (b.GameObject().Name == "brick") canwalljump = true;
+                if (b.GameObject().Name == "brick") canwalljumpright = true;
                 if (b.GameObject().Name == "npc" &&  !_damaged)
                 {
                     _hp = _hp - 30;
                     _damaged = true;
                 }
             };
-            left.OnSeparation = (a, b, contact) => canwalljump = false;
+            left.OnSeparation = (a, b, contact) => canwalljumpright = false;
 
             Fixture right = FixtureFactory.AttachRectangle(
                 _size.X * 0.2f, _size.Y,
@@ -117,14 +117,14 @@ namespace Tower2
 
             right.OnCollision = (a, b, contact) =>
             {
-                if (b.GameObject().Name == "brick") canwalljump = true;
+                if (b.GameObject().Name == "brick") canwalljumpleft = true;
                 if (b.GameObject().Name == "npc" && !_damaged)
                 {
                     _hp = _hp - 30;
                     _damaged = true;
                 }
             };
-            right.OnSeparation = (a, b, contact) => canwalljump = false;
+            right.OnSeparation = (a, b, contact) => canwalljumpleft = false;
 
             KeyboardManager.Register(
                 Keys.Space,
@@ -141,8 +141,8 @@ namespace Tower2
                         candoublejump = false;
                         Body.ApplyForce(new Vector2(0, 285f));
                     }
-                    else if (canwalljump && KeyboardManager.IsKeyDown(Keys.A)) Body.ApplyForce(new Vector2(-80f, 550f));
-                    else  if (canwalljump && KeyboardManager.IsKeyDown(Keys.D)) Body.ApplyForce(new Vector2(80f, 550f));
+                    else if (canwalljumpleft && KeyboardManager.IsKeyDown(Keys.A)) Body.ApplyForce(new Vector2(-80f, 550f));
+                    else  if (canwalljumpright && KeyboardManager.IsKeyDown(Keys.D)) Body.ApplyForce(new Vector2(80f, 550f));
                 });
             KeyboardManager.Register(
                 Keys.A,
@@ -219,6 +219,8 @@ namespace Tower2
             }
 
             foreach (ITempObject obj in _objects) obj.Update(gameTime);
+
+
             Aura._position = Body.Position;
             if (_status == Status.Cast)
             {
@@ -249,6 +251,7 @@ namespace Tower2
                 .Where(obj => obj is Bullet)
                 .Cast<Bullet>()
                 .Where(b => b.Collided)
+                .Select(b => new Explosion(_game, b.ImpactPos))
                 .ToArray()
             );
             _objects = _objects.Where(b => !b.IsDead()).ToList();

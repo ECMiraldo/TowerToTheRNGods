@@ -50,8 +50,10 @@ namespace IPCA.MonoGame
             Body.OnCollision = (a, b, contact) =>
             {
                 if (b.GameObject().Name != "player" && b.GameObject().Name != "bullet")
+                {
                     _collided = true;
-
+                    ImpactPos = Body.Position;
+                }
             };
         }
         
