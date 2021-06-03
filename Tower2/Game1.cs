@@ -56,12 +56,13 @@ namespace Tower2
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
+
+            Player._instance.Update(gameTime);
+            _world.Step((float)gameTime.ElapsedGameTime.TotalMilliseconds * 0.001f);     
+            ObjectPool._instance.Update(gameTime);
             if (playernotdead)
             {
-                Player._instance.Update(gameTime);
-                _world.Step((float)gameTime.ElapsedGameTime.TotalMilliseconds * 0.001f);
                 Tower._instance.Update(gameTime);
-                ObjectPool._instance.Update(gameTime);
                 Ui._instance.Update(gameTime);
                 _timer = _timer + gameTime.ElapsedGameTime.TotalSeconds;
                 if (_timer > 5)

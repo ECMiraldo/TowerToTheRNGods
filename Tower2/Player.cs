@@ -14,12 +14,12 @@ namespace Tower2
     {
         enum Status
         {
-            Idle, Walk, Cast,
+            Idle, Walk, Cast, Dead
         }
         private Status _status = Status.Idle;
 
         public static Player _instance;
-        public int _hp = 100;
+        public int _hp = 10;
         public int _mana = 100;
         public int _coins;
         public int crystals;
@@ -39,17 +39,20 @@ namespace Tower2
         private List<Texture2D> _idleFrames;
         private List<Texture2D> _walkFrames;
         private List<Texture2D> _castFrames;
+        private List<Texture2D> _dieFrames;
+        private bool notdead = true;
+        
         private Texture2D _bullet;
         private List<ITempObject> _objects;
         private AnimatedSprite Aura;
 
-        public Player(Game1 game1) : base("player", new Vector2(5f, 1.18f), new Vector2(0.5f, 0.5f), 128f, Enumerable.Range(0, 9).Select(n => game1.Content.Load<Texture2D>($"playersprites/Stand/{n}")).ToArray())
+        public Player(Game1 game1) : base( "player", new Vector2(5f, 1.18f), new Vector2(0.5f, 0.5f), 128f, Enumerable.Range(0, 9).Select(n => game1.Content.Load<Texture2D>($"playersprites/Stand/{n}")).ToArray())
         {
             _instance = this;
             _idleFrames = _textures; // loaded by the base construtor
             _walkFrames = Enumerable.Range(0, 9).Select(n => game1.Content.Load<Texture2D>($"playersprites/Walk/{n}")).ToList();
             _castFrames = Enumerable.Range(0, 9).Select(n => game1.Content.Load<Texture2D>($"playersprites/Cast1H/{n}")).ToList();
-
+            _dieFrames  = Enumerable.Range(0, 9).Select(n => game1.Content.Load<Texture2D>($"playersprites/Die/{n}")).ToList();
             _game = game1;
             _bullet = _game.Content.Load<Texture2D>("fireball");
             _objects = new List<ITempObject>();
@@ -130,34 +133,36 @@ namespace Tower2
                 Keys.Space,
                 KeysState.GoingDown,
                 () =>
-                {
-                    if (_isGrounded)
+                { if (_status != Status.Dead)
                     {
-                        Body.ApplyForce(new Vector2(0, 375f));
-                        candoublejump = true;
+                        if (_isGrounded)
+                        {
+                            Body.ApplyForce(new Vector2(0, 375f));
+                            candoublejump = true;
+                        }
+                        else if (candoublejump)
+                        {
+                            candoublejump = false;
+                            Body.ApplyForce(new Vector2(0, 285f));
+                        }
+                        else if (canwalljumpleft && KeyboardManager.IsKeyDown(Keys.A)) Body.ApplyForce(new Vector2(-80f, 550f));
+                        else if (canwalljumpright && KeyboardManager.IsKeyDown(Keys.D)) Body.ApplyForce(new Vector2(80f, 550f));
                     }
-                    else if (candoublejump)
-                    {
-                        candoublejump = false;
-                        Body.ApplyForce(new Vector2(0, 285f));
-                    }
-                    else if (canwalljumpleft && KeyboardManager.IsKeyDown(Keys.A)) Body.ApplyForce(new Vector2(-80f, 550f));
-                    else  if (canwalljumpright && KeyboardManager.IsKeyDown(Keys.D)) Body.ApplyForce(new Vector2(80f, 550f));
                 });
             KeyboardManager.Register(
                 Keys.A,
                 KeysState.Down,
-                () => { Body.ApplyForce(new Vector2(-12.5f, 0)); });
+                () => { if (_status != Status.Dead) Body.ApplyForce(new Vector2(-12.5f, 0)); });
             KeyboardManager.Register(
                 Keys.D,
                 KeysState.Down,
-                () => { Body.ApplyForce(new Vector2(12.5f, 0)); });
+                () => { if (_status != Status.Dead) Body.ApplyForce(new Vector2(12.5f, 0)); });
 
             KeyboardManager.Register(
                Keys.F, KeysState.GoingDown,
                () =>
                {
-                   if (crystals > 0)
+                   if (crystals > 0 && _status != Status.Dead)
                    {
                        Vector2 pixelClick = Mouse.GetState().Position.ToVector2();
                        Vector2 pixelPlayer = Camera.Position2Pixels(_position);
@@ -177,7 +182,7 @@ namespace Tower2
                 Keys.R,
                 KeysState.Down,
                 () => {
-                    if (_mana > 0)
+                    if (_mana > 0 && _status != Status.Dead)
                     {
                         Body.ApplyForce(new Vector2(0, 30f));
                         _status = Status.Cast;
@@ -195,9 +200,18 @@ namespace Tower2
 
         public override void Update(GameTime gameTime)
         {
-            if (_hp < 1 || Camera.Target.Y - 11f > Body.Position.Y) _game.playernotdead = false;
-
-
+            
+            if (_hp < 1) _status = Status.Dead;
+            if (_status == Status.Dead)
+            {
+                _textures = _dieFrames;
+                if (_currentTexture > 7)
+                {
+                  
+                    _game.playernotdead = false;
+                    notdead = false;
+                }
+            }
             if (_damaged)
             {
                 _timer = _timer + gameTime.ElapsedGameTime.TotalSeconds;
@@ -218,10 +232,10 @@ namespace Tower2
             }
             if (_status == Status.Cast)
             {
-                _mana = _mana - ((int)gameTime.ElapsedGameTime.Ticks / 100000 );
+                _mana = _mana - ((int)gameTime.ElapsedGameTime.Ticks / 100000);
             }
 
-            foreach (ITempObject obj in _objects) obj.Update(gameTime);
+
 
 
             Aura._position = Body.Position;
@@ -249,7 +263,7 @@ namespace Tower2
             if (Body.LinearVelocity.X < 0f) _direction = Direction.Left;
             else if (Body.LinearVelocity.X > 0f) _direction = Direction.Right;
 
-            base.Update(gameTime);
+
             _objects.AddRange(_objects
                 .Where(obj => obj is Bullet)
                 .Cast<Bullet>()
@@ -257,18 +271,19 @@ namespace Tower2
                 .Select(b => new Explosion(_game, b.ImpactPos))
                 .ToArray()
             );
-            _objects = _objects.Where(b => !b.IsDead()).ToList();
-            
-            
 
+
+            if (notdead) base.Update(gameTime);
+            _objects = _objects.Where(b => !b.IsDead()).ToList();
+            foreach (ITempObject obj in _objects) obj.Update(gameTime);
         }
+        
 
         public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            base.Draw(spriteBatch, gameTime);
-            foreach (ITempObject obj in _objects) obj.Draw(spriteBatch, gameTime);
-            if (_status == Status.Cast) Aura.Draw(spriteBatch, gameTime);
-
+                base.Draw(spriteBatch, gameTime);
+                foreach (ITempObject obj in _objects) obj.Draw(spriteBatch, gameTime);
+                if (_status == Status.Cast) Aura.Draw(spriteBatch, gameTime);
         }
 
 
