@@ -50,7 +50,7 @@ namespace Tower2
             {
                 if (b.GameObject().Body.BodyType == BodyType.Kinematic) ;
             };
-            Fixture top = FixtureFactory.AttachRectangle(_size.X /3f, _size.Y * 0.1f, 1, new Vector2(0, _size.Y / 2f - 0.01f),Body);
+            Fixture top = FixtureFactory.AttachRectangle(_size.X /4f, _size.Y * 0.1f, 1, new Vector2(0, _size.Y / 2f - 0.01f),Body);
             top.IsSensor = true;
 
             top.OnCollision = (a, b, contact) =>

@@ -76,21 +76,19 @@ namespace Tower2
                 isnotplaying = false;
                 MediaPlayer.Play(_song);
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Up))
-            {
-                _volume += 0.1f;
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.Down))
-            {
-                _volume -= 0.1f;
-            }
-
+            if (Keyboard.GetState().IsKeyDown(Keys.Up)) _volume += 0.1f;
+            if (Keyboard.GetState().IsKeyDown(Keys.Down)) _volume -= 0.1f;
             _volume = (float)Math.Clamp(_volume, 0.0, 1.0);
             MediaPlayer.Volume = _volume;
-            if (Player._instance.Position.Y < Camera.Target.Y - 11f) playernotdead = false;
+
+
+           
+
             Player._instance.Update(gameTime);
             _world.Step((float)gameTime.ElapsedGameTime.TotalMilliseconds * 0.001f);     
             ObjectPool._instance.Update(gameTime);
+
+            if (Player._instance.Position.Y < Camera.Target.Y - 11f) playernotdead = false;
             if (playernotdead)
             {
                 Tower._instance.Update(gameTime);
@@ -104,12 +102,12 @@ namespace Tower2
                 
             }
             if (!playernotdead) isnotplaying = true;
-            else {
-                if (KeyboardManager.IsGoingDown(Keys.Escape)) this.Exit();
+            
+            if (KeyboardManager.IsGoingDown(Keys.Escape)) this.Exit();
                 //We wanted to make a reset function but taking into account our game is running with a pretty good amount of singletons
                 //Then we might just learn out lesson and make it better next time
                 //if (KeyboardManager.IsGoingDown(Keys.Enter)) Reset();
-            }
+            
             base.Update(gameTime);
         }
 

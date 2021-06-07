@@ -96,7 +96,7 @@ namespace Tower2
 
 
             Fixture left = FixtureFactory.AttachRectangle(
-                _size.X *0.2f, _size.Y,
+                _size.X *0.2f, _size.Y/2,
                 1, new Vector2(-_size.X * 0.8f, 0),
                 Body);
             left.IsSensor = true;
@@ -113,7 +113,7 @@ namespace Tower2
             left.OnSeparation = (a, b, contact) => canwalljumpright = false;
 
             Fixture right = FixtureFactory.AttachRectangle(
-                _size.X * 0.2f, _size.Y,
+                _size.X * 0.2f, _size.Y/2,
                 1, new Vector2(_size.X * 0.8f, 0),
                 Body);
             right.IsSensor = true;
