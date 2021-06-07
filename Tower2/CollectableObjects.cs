@@ -52,11 +52,6 @@ namespace Tower2
         }
     }
 
-    public class Bomb
-    {
-
-    }
-
     public class RedHeart : Sprite
     {
         private Game1 game;

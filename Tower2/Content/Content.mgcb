@@ -620,6 +620,12 @@
 /processorParam:TextureFormat=Compressed
 /build:EndGame.spritefont
 
+#begin ES_Gallop - Jerry Lacey.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:ES_Gallop - Jerry Lacey.mp3
+
 #begin Explosion/explosion_0.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -931,6 +937,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:fireball.png
+
+#begin Full-Background.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Full-Background.png
 
 #begin healthbar.png
 /importer:TextureImporter

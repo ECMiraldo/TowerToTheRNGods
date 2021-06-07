@@ -53,6 +53,7 @@ namespace IPCA.MonoGame
                 {
                     _collided = true;
                     ImpactPos = Body.Position;
+                    Body.ResetDynamics();
                 }
             };
         }

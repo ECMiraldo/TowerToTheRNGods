@@ -45,7 +45,7 @@ namespace Tower2
                 _bricks.Add(new Brick(game, new Vector2(0.25f, maxheight + 0.5f)));
                 _bricks.Add(new Brick(game, new Vector2(9.75f, maxheight + 0.5f)));
             }
-            if (Camera.Target.Y - 12f > _bricks[0].Position.Y) _bricks.RemoveRange(0, 2);
+            if (Camera.Target.Y - 12f > _bricks[0].Position.Y)_bricks.RemoveRange(0, 2);
 
         }
 

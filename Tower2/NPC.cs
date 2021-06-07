@@ -22,7 +22,7 @@ namespace Tower2
         private bool isDead = false;
         public bool IsDead => isDead;
 
-        public NPC(Game1 game, Vector2 position) : base ("npc", position, new Vector2(1.2f,0.6f), 64f, 
+        public NPC(Game1 game, Vector2 position) : base("npc", new Vector2(position.X, position.Y + 0.8f), new Vector2(1.2f,0.6f), 64f, 
                                         Enumerable.Range(1,4).Select(n => game.Content.Load<Texture2D>($"Poringsprites/Standing/standing{n}")).ToArray())
         {
             _idleFrames = _textures; // loaded by the base construtor

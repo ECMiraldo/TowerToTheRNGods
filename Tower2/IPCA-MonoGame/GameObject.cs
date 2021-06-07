@@ -20,7 +20,7 @@ namespace IPCA.MonoGame
         public Vector2 _size;
         public string Name => _name;
         public Body Body;
-        public bool Debug = true;
+        public bool Debug = false;
         
 
         public GameObject(string name) : this(name, Vector2.Zero)

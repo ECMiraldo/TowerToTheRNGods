@@ -7,7 +7,7 @@ namespace IPCA.MonoGame
 {
     public class Camera
     {
-        private static Camera _camera; // Instance from the Camera singleton
+        public static Camera _camera; // Instance from the Camera singleton
         
         private Vector2 _windowSize;
         private Vector2 _worldSize;
@@ -131,7 +131,7 @@ namespace IPCA.MonoGame
         private void _Update(GameTime gametime)
         {
             _speed += gametime.ElapsedGameTime.TotalSeconds/5000;
-            _target = _target + new Vector2(0, (float)_speed + 0.01f);
+            _target = _target + new Vector2(0, (float)_speed + 0.02f);
         }
     }
 }

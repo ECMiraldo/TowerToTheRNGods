@@ -19,7 +19,7 @@ namespace Tower2
         private Texture2D _crystal;
         private SpriteFont highscorefont;
         public double _highscore;
-
+       
         public Ui(Game1 game)
         {
             _instance = this;
@@ -32,6 +32,7 @@ namespace Tower2
             _health = game.Content.Load<Texture2D>("healthbar");
             _mana = game.Content.Load<Texture2D>("manabar");
             _crystal = game.Content.Load<Texture2D>("crystal/crystal 1");
+           
         }
 
         public void Update(GameTime gametime)
@@ -57,12 +58,14 @@ namespace Tower2
 
             for (int i = 0; i < Player._instance.crystals; i++)
             {
-                Rectangle bullets = new Rectangle(new Point(7 + (24*i), 900), new Point(24, 32));
+                Rectangle bullets = new Rectangle(new Point(4 + (22*i), 900), new Point(22, 32));
                 sp.Draw(_crystal, bullets, Color.White);
             }
 
             int score2int = (int)_highscore;
-            sp.DrawString(highscorefont, score2int.ToString(), new Vector2(30, 0), Color.White);
+            sp.DrawString(highscorefont, score2int.ToString(), new Vector2(30, 0), Color.Black);
+
+            
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Tower2
         private Status _status = Status.Idle;
 
         public static Player _instance;
-        public int _hp = 10;
+        public int _hp = 100;
         public int _mana = 100;
         public int _coins;
         public int crystals;
@@ -46,7 +46,7 @@ namespace Tower2
         private List<ITempObject> _objects;
         private AnimatedSprite Aura;
 
-        public Player(Game1 game1) : base( "player", new Vector2(5f, 1.18f), new Vector2(0.5f, 0.5f), 128f, Enumerable.Range(0, 9).Select(n => game1.Content.Load<Texture2D>($"playersprites/Stand/{n}")).ToArray())
+        public Player(Game1 game1) : base( "player", new Vector2(5f, 1.18f), new Vector2(0.5f, 0.5f), 120f, Enumerable.Range(0, 9).Select(n => game1.Content.Load<Texture2D>($"playersprites/Stand/{n}")).ToArray())
         {
             _instance = this;
             _idleFrames = _textures; // loaded by the base construtor

@@ -22,9 +22,9 @@ namespace Tower2
 
         public static ObjectPool _instance;
         private Game1 game;
-        private List<GameObject> _pool;
-        private List<GameObject> _platforms;
-        private List<NPC> _porings;
+        public List<GameObject> _pool;
+        public List<GameObject> _platforms;
+        public List<NPC> _porings;
         private Random rng;
         private int _random;
         private float _height;
@@ -60,7 +60,7 @@ namespace Tower2
                     _random = rng.Next(0, 10);
                     if (_random >= 5)  // Spawn poring
                     {
-                        float posY = _height + 0.5f;
+                        float posY = _height + 0.7f;
                         NPC npc = new NPC(game, new Vector2(Xpos, posY));
                         _porings.Add(npc);
                     }
@@ -174,7 +174,7 @@ namespace Tower2
                     }
                     if (_random >= 5)  // Spawn poring
                     {
-                        float posY = _height + 0.5f;
+                        float posY = _height + 0.7f;
                         NPC npc = new NPC(game, new Vector2(Xpos, posY));
                         _porings.Add(npc);
                     }
@@ -203,51 +203,44 @@ namespace Tower2
         {
             while (heightaux < Camera.Target.Y + 11f)
             {
-                _random = rng.Next(0, 10);
-                if (_random < 8) //20% chance to not spawn anything;
+                float Xpos = rng.Next(0, 10);
+                _random = rng.Next(0, 11);
+                if (_random > 2) // 80% to spawn something that helps the player
                 {
-                    float Xpos = rng.Next(0, 10);
-
-                    _random = rng.Next(0, 11);
-                    if (_random > 3) // 70% to spawn something that helps the player
+                    _random = rng.Next(0, 21);
+                    switch (_random)
                     {
-                        _random = rng.Next(0, 21);
-                        switch (_random)
-                        {
-                            case 1:
-                            case 2:
-                            case 3:
-                            case 4:
-                            case 5:
-                            case 6:
-                            case 7:
-                            case 8:
-                                _pool.Add(new Coin(game, new Vector2(Xpos, heightaux)));
-                                break;
-                            case 9:
-                            case 10:
-                            case 11:
-                            case 12:
-                                _pool.Add(new Crystal(game, new Vector2(Xpos, heightaux)));
-                                break;
-                            case 13:
-                            case 14:
-                            case 15:
-                                _pool.Add(new RedHeart(game, new Vector2(Xpos, heightaux)));
-                                break;
-                            case 16:
-                            case 17:
-                            case 18:
-                            case 19:
-                                _pool.Add(new ManaHeart(game, new Vector2(Xpos, heightaux)));
-                                break;
-                            case 20:
-                                _pool.Add(new Hourglass(game, new Vector2(Xpos, heightaux)));
-                                break;
-                        }
+                        case 1:
+                        case 2:
+                        case 3:
+                        case 4:
+                        case 5:
+                        case 6:
+                        case 7:
+                            _pool.Add(new Coin(game, new Vector2(Xpos, heightaux)));
+                            break;
+                        case 9:
+                        case 10:
+                        case 11:
+                        case 12:
+                            _pool.Add(new Crystal(game, new Vector2(Xpos, heightaux)));
+                            break;
+                        case 13:
+                        case 14:
+                        case 15:
+                            _pool.Add(new RedHeart(game, new Vector2(Xpos, heightaux)));
+                            break;
+                        case 8:
+                        case 16:
+                        case 17:
+                        case 18:
+                        case 19:
+                            _pool.Add(new ManaHeart(game, new Vector2(Xpos, heightaux)));
+                            break;
+                        case 20:
+                            _pool.Add(new Hourglass(game, new Vector2(Xpos, heightaux)));
+                            break;
                     }
-
-
                 }
                 heightaux = heightaux + 3;
             }
