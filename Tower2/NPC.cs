@@ -7,6 +7,7 @@ using Genbox.VelcroPhysics.Factories;
 using IPCA.MonoGame;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 
 
 
@@ -21,6 +22,7 @@ namespace Tower2
         private Vector2 _startingPoint;
         private bool isDead = false;
         public bool IsDead => isDead;
+        public SoundEffect _break;
 
         public NPC(Game1 game, Vector2 position) : base("npc", new Vector2(position.X, position.Y + 0.8f), new Vector2(1.2f,0.6f), 64f, 
                                         Enumerable.Range(1,4).Select(n => game.Content.Load<Texture2D>($"Poringsprites/Standing/standing{n}")).ToArray())
@@ -31,7 +33,7 @@ namespace Tower2
             
             _game = game;
             _startingPoint = position;
-           
+            _break = game.Content.Load<SoundEffect>("poringDieSFX");
             AddRectangleBody(_game.Services.GetService<World>(),width: _size.X / 2f); // kinematic is false by default
             Body.LinearVelocity = -Vector2.UnitX;
             Fixture sensor = FixtureFactory.AttachRectangle(_size.X /2, _size.Y,1, new Vector2(0,0),Body);
@@ -84,6 +86,7 @@ namespace Tower2
             if (Body.LinearVelocity.LengthSquared() < 1) Body.LinearVelocity = Vector2.UnitX;
             if (isDead)
             {
+                
                 Body.Enabled = false;
                 Body.ResetDynamics();
                 _textures = _deadFrames;

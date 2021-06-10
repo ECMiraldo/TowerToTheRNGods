@@ -1629,6 +1629,12 @@
 /processorParam:TextureFormat=Color
 /build:playersprites/Walk/9.png
 
+#begin poringDieSFX.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:poringDieSFX.wav
+
 #begin Poringsprites/Dying/hurt1.png
 /importer:TextureImporter
 /processor:TextureProcessor

@@ -97,6 +97,7 @@ namespace Tower2
                 if (_porings[i].IsDead && 
                     _porings[i].Texture[_porings[i].CurrentTexture] == _porings[i].Texture[_porings[i].Texture.Count - 1])
                 {
+                    _porings[i]._break.Play();
                     _porings.Remove(_porings[i]);
                 }
             }
