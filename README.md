@@ -1,6 +1,6 @@
 # Tower2
 
-Tower_To_The_RNGods - Alpha v0.1
+Tower_To_The_RNGods - Alpha v0.10
 Eduardo Miraldo 20768
 Jorge Curto 21659
 Afonso Abreu 19725
