@@ -3,20 +3,20 @@
 Tower_To_The_RNGods - Alpha v0.10
 Eduardo Miraldo 20768  //
 Jorge Curto 21659  //
-Afonso Abreu 19725  //
+Afonso Abreu 19725  
 
 Comandos: Movimento: WASD  //
           Fireball: F //
           Levitate: R //
-          Volume Up/Down : Up and Down arrow keys  //
+          Volume Up/Down : Up and Down arrow keys  
 
-Mecanicas: Double Jump e WallJump(dificil)   ///
+Mecanicas: Double Jump e WallJump(dificil)   
 
 Colecionaveis: Moedas - aumentam exponencialmente a highscore  //
                Coracoes Vermelhos: +30 HP //
                Coracoes Azuis: +30 Mana //
                Cristais: +1 bala para fireball //
-               Ampulheta: Diminui em 50% o bonus de velocidade da Camera  ///
+               Ampulheta: Diminui em 50% o bonus de velocidade da Camera  
 
 
 Tower2 foi o nosso primeiro jogo original, ficamos muito felizes com o resultado final mas existem ainda muitas coisas que gostariamos de melhorar. 
@@ -30,4 +30,4 @@ Temos planos de continuar o desenvolvimento do jogo e implementar os seguintes p
 -Implementacao de mais tipos de obstaculos de forma a tornar o jogo mais dinâmico e caótico  //
 -Mudar a textura do jogador para algo mais fluído, talvez até vetorial mesmo para distoar do resto.  //
 -Implementacao de um menu de Highscores, gravaçao e leitura das highscores gravadas num ficheiro  //
--Implementacao de um background com efeito de parallax vertical.  //
+-Implementacao de um background com efeito de parallax vertical. 
