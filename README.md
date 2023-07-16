@@ -3,7 +3,7 @@
 Tower_To_The_RNGods - Alpha v0.10
 
 Tower to the RNGods was my first ever game developed.
-The physics engine used was Genbox/Velcro physics, which can be found here: https://github.com/Genbox/VelcroPhysics
+The physics engine used was Genbox's Velcro physics, which can be found here: https://github.com/Genbox/VelcroPhysics
 
 Developed using the XNA framework, with Monogame's API.
 
