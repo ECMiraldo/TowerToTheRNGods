@@ -13,7 +13,7 @@ Controls: Movement: WASD  //
           Levitate: R //
           Volume Up/Down : Up and Down arrow keys  
 
-Mechanics: Double Jump e WallJump(dificil)   
+Mechanics: Double Jump e WallJump
 
 Colectables:   Coins - exponentially raise high score  //
                Red hearts: +30 HP //
